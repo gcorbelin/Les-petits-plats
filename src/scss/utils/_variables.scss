@@ -1,0 +1,21 @@
+// CSS Custom properties
+:root {
+  // Colors
+  --theme-color-1: #3282f7;
+  --theme-color-2: #68d9a4;
+  --theme-color-3: #ed6454;
+  --text-color-level-1: #000;
+  --text-color-level-2: #fff;
+  --surface-level-1: #fff;
+  --surface-level-2: #e7e7e7;
+  --surface-level-3: #c7bebe;
+
+  // Fonts
+  --font-family-base: "Lato", arial, sans-serif;
+  --font-size-base: 16px;
+  --line-height-base: calc(1em + 0.5rem);
+
+  // Radius
+  --border-radius: 5px;
+  --border-radius-full: 999rem;
+}

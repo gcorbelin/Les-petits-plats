@@ -1,0 +1,23 @@
+// Headings
+h1,
+h2 {
+  font-size: 1.125rem;
+}
+
+h3 {
+  font-size: 1rem;
+}
+
+// Links
+a {
+  color: var(--text-color-level-1);
+  text-decoration: none;
+}
+
+// Lists
+.list {
+  &--unstyled {
+    padding: 0;
+    list-style: none;
+  }
+}

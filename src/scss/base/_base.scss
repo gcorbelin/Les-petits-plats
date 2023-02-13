@@ -1,0 +1,13 @@
+html {
+  scroll-behavior: smooth;
+  font-size: var(--font-size-base);
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--surface-level-1);
+  color: var(--text-color-level-1);
+  font-size: calc(#{var(--font-size-base)} * 1.125);
+  font-family: var(--font-family-base);
+}

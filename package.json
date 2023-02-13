@@ -1,0 +1,37 @@
+{
+  "name": "les-petits-plats",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-task:scss-compile": "node-sass-chokidar --source-map true src/scss/ -o dist/css",
+    "build-task:autoprefixer": "postcss dist/css/*.css --use autoprefixer -d dist/css",
+    "sass:build": "npm-run-all -p build-task:*",
+    "sass:watch": "chokidar \"src/scss/**/*.scss\" -c \"npm run sass:build\"",
+    "dev": "npm-run-all -p sass:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gcorbelin/Les-petits-plats.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gcorbelin/Les-petits-plats/issues"
+  },
+  "homepage": "https://github.com/gcorbelin/Les-petits-plats#readme",
+  "dependencies": {
+    "autoprefixer": "^10.4.13",
+    "chokidar-cli": "^3.0.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "node-sass-chokidar": "^2.0.0",
+    "npm-run-all": "^4.1.5",
+    "postcss-cli": "^10.1.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
