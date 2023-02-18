@@ -1,0 +1,87 @@
+.combobox {
+  position: relative;
+
+  &--theme-1 {
+    .combobox__group {
+      background-color: var(--theme-color-1);
+    }
+  }
+
+  &--theme-2 {
+    .combobox__group {
+      background-color: var(--theme-color-2);
+    }
+  }
+
+  &--theme-3 {
+    .combobox__group {
+      background-color: var(--theme-color-3);
+    }
+  }
+
+  &__group {
+    display: inline-flex;
+    padding: 1rem 0.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+  }
+
+  &__input,
+  &__button {
+    position: relative;
+    vertical-align: bottom;
+    height: 2rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--text-color-level-2);
+    cursor: pointer;
+  }
+
+  &__input {
+    width: 150px;
+    padding: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: bold;
+
+    &::placeholder {
+      color: var(--text-color-level-2);
+    }
+  }
+
+  &__button {
+    width: 2rem;
+    border-left: none;
+
+    &[aria-expanded="true"] i {
+      transform: rotate(180deg) translate(0, -3px);
+    }
+  }
+
+  &__list {
+    display: none;
+    position: absolute;
+    left: 4px;
+    top: 28px;
+    max-height: 250px;
+    width: 168px;
+    margin: 0;
+    padding: 0;
+    border: 2px currentcolor solid;
+    background-color: white;
+    list-style: none;
+    font-size: 87.5%;
+    overflow: scroll;
+    overflow-x: hidden;
+    cursor: pointer;
+  }
+
+  &__item {
+    display: block;
+    margin: 0;
+    padding-left: 3px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+}

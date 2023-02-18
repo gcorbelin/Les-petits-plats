@@ -3,3 +3,9 @@ main {
   flex-direction: column;
   flex-grow: 1;
 }
+
+.recipes-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 50px;
+}

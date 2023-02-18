@@ -10,10 +10,14 @@
 @import "base/typography";
 
 // Components
+@import "components/form";
+@import "components/card";
+@import "components/combobox";
 
 // Layout
 @import "layout/common";
 @import "layout/header";
+@import "layout/main";
 @import "layout/footer";
 
 // Pages

@@ -1,0 +1,48 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--border-radius);
+  background-color: var(--surface-level-2);
+  overflow: hidden;
+  height: 100%;
+
+  &__header {
+    flex-shrink: 0;
+    height: 178px;
+    background-color: var(--surface-level-3);
+  }
+
+  &__body {
+    flex-grow: 1;
+    padding: 1.25rem;
+  }
+
+  &__title {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    font-size: 1.125rem;
+  }
+
+  &__timer {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-weight: 700;
+  }
+
+  &__content {
+    display: grid;
+    gap: 0.5rem;
+    grid-template-columns: 1fr 1fr;
+    font-size: 0.75rem;
+    line-height: 1.1;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  }
+}
