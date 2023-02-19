@@ -1,5 +1,6 @@
 import { getDatas } from "./api/api.js";
 import recipeTemplate from "./templates/recipeTemplate.js";
+import comboboxInit from "./utils/combobox.js";
 
 const recipes = getDatas();
 
@@ -16,6 +17,7 @@ function displayRecipes() {
 
 function init() {
   displayRecipes();
+  comboboxInit();
 }
 
 init();

@@ -1,28 +1,25 @@
 .combobox {
   position: relative;
+  border-radius: var(--border-radius);
 
   &--theme-1 {
-    .combobox__group {
-      background-color: var(--theme-color-1);
-    }
+    background-color: var(--theme-color-1);
+    color: var(--text-color-level-2);
   }
 
   &--theme-2 {
-    .combobox__group {
-      background-color: var(--theme-color-2);
-    }
+    background-color: var(--theme-color-2);
+    color: var(--text-color-level-2);
   }
 
   &--theme-3 {
-    .combobox__group {
-      background-color: var(--theme-color-3);
-    }
+    background-color: var(--theme-color-3);
+    color: var(--text-color-level-2);
   }
 
   &__group {
     display: inline-flex;
     padding: 1rem 0.5rem;
-    border-radius: var(--border-radius);
     cursor: pointer;
   }
 
@@ -62,17 +59,17 @@
   &__list {
     display: none;
     position: absolute;
-    left: 4px;
-    top: 28px;
+    left: 0;
+    top: calc(100% - 5px);
     max-height: 250px;
-    width: 168px;
+    width: 100%;
     margin: 0;
-    padding: 0;
-    border: 2px currentcolor solid;
-    background-color: white;
+    padding: 0 0.5rem 1rem;
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+    background-color: inherit;
     list-style: none;
-    font-size: 87.5%;
-    overflow: scroll;
+    font-size: 1.125rem;
+    overflow: auto;
     overflow-x: hidden;
     cursor: pointer;
   }
