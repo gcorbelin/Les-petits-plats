@@ -5,13 +5,16 @@ function recipeTemplate(data) {
 
   function getRecipeCard() {
     let ingredientsList = "";
-    ingredients.forEach((ingredient) => {
-      ingredientsList += `<li><strong>${ingredient.ingredient} ${
-        ingredient.quantity ? ":" : ""
-      }</strong> ${ingredient.quantity ? ingredient.quantity : ""} ${
-        ingredient.unit ? ingredient.unit : ""
-      }</li>`;
-    });
+    if (ingredients.length) {
+      for (let i = 0; i < ingredients.length; i++) {
+        const ingredient = ingredients[i];
+        ingredientsList += `<li><strong>${ingredient.ingredient} ${
+          ingredient.quantity ? ":" : ""
+        }</strong> ${ingredient.quantity ? ingredient.quantity : ""} ${
+          ingredient.unit ? ingredient.unit : ""
+        }</li>`;
+      }
+    }
 
     let recipeCard = document.createElement("article");
     recipeCard.classList.add("card");

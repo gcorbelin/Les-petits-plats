@@ -7,23 +7,34 @@ function getDatas() {
 function getIngredients() {
   const recipes = getDatas();
   let ingredients = [];
-  recipes.forEach((recipe) => {
-    recipe.ingredients.forEach((ingredient) => {
-      let ingredientExists = false;
-      if (ingredients.length) {
-        for (let i = 0; i < ingredients.length; i++) {
-          if (
-            ingredients[i].toLowerCase() === ingredient.ingredient.toLowerCase()
-          ) {
-            ingredientExists = true;
+  // Check each recipe
+  if (recipes.length) {
+    for (let i = 0; i < recipes.length; i++) {
+      const recipe = recipes[i];
+      // Check each ingredient
+      if (recipe.ingredients.length) {
+        for (let j = 0; j < recipe.ingredients.length; j++) {
+          const ingredient = recipe.ingredients[j];
+          let ingredientExists = false;
+          // Compare to each ingredient already saved
+          if (ingredients.length) {
+            for (let i = 0; i < ingredients.length; i++) {
+              if (
+                ingredients[i].toLowerCase() ===
+                ingredient.ingredient.toLowerCase()
+              ) {
+                ingredientExists = true;
+              }
+            }
+          }
+          // Add only if not saved
+          if (!ingredientExists) {
+            ingredients.push(ingredient.ingredient.toLowerCase());
           }
         }
       }
-      if (!ingredientExists) {
-        ingredients.push(ingredient.ingredient.toLowerCase());
-      }
-    });
-  });
+    }
+  }
 
   return ingredients;
 }
@@ -31,19 +42,26 @@ function getIngredients() {
 function getAppliance() {
   const recipes = getDatas();
   let appliances = [];
-  recipes.forEach((recipe) => {
-    let applianceExists = false;
-    if (appliances.length) {
-      for (let i = 0; i < appliances.length; i++) {
-        if (appliances[i].toLowerCase() === recipe.appliance.toLowerCase()) {
-          applianceExists = true;
+  // Check each recipe
+  if (recipes.length) {
+    for (let i = 0; i < recipes.length; i++) {
+      let applianceExists = false;
+      // Compare to each appliance already saved
+      if (appliances.length) {
+        for (let j = 0; j < appliances.length; j++) {
+          if (
+            appliances[j].toLowerCase() === recipes[i].appliance.toLowerCase()
+          ) {
+            applianceExists = true;
+          }
         }
       }
+      // Add only if not saved
+      if (!applianceExists) {
+        appliances.push(recipes[i].appliance.toLowerCase());
+      }
     }
-    if (!applianceExists) {
-      appliances.push(recipe.appliance.toLowerCase());
-    }
-  });
+  }
 
   return appliances;
 }
@@ -51,21 +69,31 @@ function getAppliance() {
 function getUstensils() {
   const recipes = getDatas();
   let ustensils = [];
-  recipes.forEach((recipe) => {
-    recipe.ustensils.forEach((ustensil) => {
-      let ingredientExists = false;
-      if (ustensils.length) {
-        for (let i = 0; i < ustensils.length; i++) {
-          if (ustensils[i].toLowerCase() === ustensil.toLowerCase()) {
-            ingredientExists = true;
+  // Check each recipe
+  if (recipes.length) {
+    for (let i = 0; i < recipes.length; i++) {
+      const recipe = recipes[i];
+      // Check each ustensil
+      if (recipe.ustensils.length) {
+        for (let j = 0; j < recipe.ustensils.length; j++) {
+          const ustensil = recipe.ustensils[j];
+          let ustensilExists = false;
+          // Compare it to each ustensil already saved
+          if (ustensils.length) {
+            for (let k = 0; k < ustensils.length; k++) {
+              if (ustensils[k].toLowerCase() === ustensil.toLowerCase()) {
+                ustensilExists = true;
+              }
+            }
+          }
+          // Add only if not saved
+          if (!ustensilExists) {
+            ustensils.push(ustensil.toLowerCase());
           }
         }
       }
-      if (!ingredientExists) {
-        ustensils.push(ustensil.toLowerCase());
-      }
-    });
-  });
+    }
+  }
 
   return ustensils;
 }

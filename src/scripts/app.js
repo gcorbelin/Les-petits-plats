@@ -24,11 +24,17 @@ const comboboxUstensils = document.getElementById("combobox-ustensils");
 
 function displayRecipes() {
   recipeWrapper.innerHTML = "";
-  filteredRecipes.forEach((recipe) => {
-    const tpl = recipeTemplate(recipe);
-    const card = tpl.getRecipeCard();
-    recipeWrapper.appendChild(card);
-  });
+  if (filteredRecipes.length) {
+    for (let i = 0; i < filteredRecipes.length; i++) {
+      const recipe = filteredRecipes[i];
+      const tpl = recipeTemplate(recipe);
+      const card = tpl.getRecipeCard();
+      recipeWrapper.appendChild(card);
+    }
+  } else {
+    recipeWrapper.innerHTML =
+      "<p>Aucune recette ne correspond à votre critère… Vous pouvez chercher «&nbsp;tarte aux pommes&nbsp;», «&nbsp;poisson&nbsp;», etc.</p>";
+  }
 }
 
 function recipeHasName(recipe) {
@@ -49,11 +55,14 @@ function recipeHasDescription(recipe) {
 
 function recipeHasIngredient(recipe) {
   let hasIngredient = false;
-  recipe.ingredients.forEach((ingredient) => {
-    if (ingredient.ingredient.toLowerCase().includes(globalSearch)) {
-      hasIngredient = true;
+  if (recipe.ingredients.length) {
+    for (let i = 0; i < recipe.ingredients.length; i++) {
+      const ingredient = recipe.ingredients[i];
+      if (ingredient.ingredient.toLowerCase().includes(globalSearch)) {
+        hasIngredient = true;
+      }
     }
-  });
+  }
   return hasIngredient;
 }
 
