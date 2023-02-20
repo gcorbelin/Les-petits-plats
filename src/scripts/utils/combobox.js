@@ -1,7 +1,8 @@
 function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
   // initialize pop up menu
-  comboboxNode.addEventListener("focus", onComboboxClick);
+  comboboxNode.addEventListener("focus", onComboboxFocus);
   comboboxNode.addEventListener("blur", close);
+  comboboxNode.addEventListener("keyup", (event) => onComboboxKeyUp(event));
 
   /* Display functions */
   function isOpen() {
@@ -24,12 +25,26 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
     buttonNode.setAttribute("aria-expanded", "false");
   }
 
-  function onComboboxClick() {
-    console.log("click");
+  function onComboboxFocus() {
     if (isOpen()) {
-      close(true);
+      close();
     } else {
       open();
+    }
+  }
+
+  function onComboboxKeyUp(event) {
+    let value = event.target.value.toLowerCase();
+    let options = listboxNode.querySelectorAll('li[role="option"]');
+    if (options.length) {
+      for (let i = 0; i < options.length; i++) {
+        const optionContent = options[i].textContent || options[i].innerText;
+        if (optionContent.toLowerCase().includes(value)) {
+          options[i].style.display = "block";
+        } else {
+          options[i].style.display = "none";
+        }
+      }
     }
   }
 }
