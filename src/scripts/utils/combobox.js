@@ -1,31 +1,45 @@
 function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
   // initialize pop up menu
-  comboboxNode.addEventListener("focus", onComboboxFocus);
-  comboboxNode.addEventListener("blur", close);
+  const comboboxWrapper = comboboxNode.closest(".js-combobox");
+  comboboxNode.addEventListener("click", onComboboxClick);
+  // comboboxNode.addEventListener("blur", close);
+  buttonNode.addEventListener("click", onButtonClick);
   comboboxNode.addEventListener("keyup", (event) => onComboboxKeyUp(event));
+
+  // Traverse the element children of domNode: configure each with
+  // option role behavior and store reference in.options array.
+  let nodes = listboxNode.getElementsByTagName("LI");
+
+  for (let i = 0; i < nodes.length; i++) {
+    let node = nodes[i];
+
+    node.addEventListener("click", (event) => onOptionClick(event));
+  }
 
   /* Display functions */
   function isOpen() {
-    return listboxNode.style.display === "block";
+    return comboboxWrapper.classList.contains("open");
   }
 
   function isClosed() {
-    return listboxNode.style.display !== "block";
+    return !isOpen();
   }
 
   function open() {
     listboxNode.style.display = "block";
+    comboboxWrapper.classList.add("open");
     comboboxNode.setAttribute("aria-expanded", "true");
     buttonNode.setAttribute("aria-expanded", "true");
   }
 
   function close() {
     listboxNode.style.display = "none";
+    comboboxWrapper.classList.remove("open");
     comboboxNode.setAttribute("aria-expanded", "false");
     buttonNode.setAttribute("aria-expanded", "false");
   }
 
-  function onComboboxFocus() {
+  function onComboboxClick() {
     if (isOpen()) {
       close();
     } else {
@@ -33,7 +47,17 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
     }
   }
 
+  function onButtonClick() {
+    if (isOpen()) {
+      close();
+    } else {
+      open();
+      comboboxNode.focus();
+    }
+  }
+
   function onComboboxKeyUp(event) {
+    open();
     let value = event.target.value.toLowerCase();
     let options = listboxNode.querySelectorAll('li[role="option"]');
     if (options.length) {
@@ -46,6 +70,11 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
         }
       }
     }
+  }
+
+  function onOptionClick(event) {
+    close();
+    console.log(comboboxNode, event.target.textContent);
   }
 }
 
