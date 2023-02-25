@@ -18,7 +18,13 @@ let filteredRecipes = recipes;
 const ingredients = getIngredients(filteredRecipes);
 const appliances = getAppliances(filteredRecipes);
 const ustensils = getUstensils(filteredRecipes);
-let globalSearch = "";
+
+let searchParams = {
+  label: "",
+  ingredients: [],
+  appliances: [],
+  ustensils: [],
+};
 
 const searchSub = searchSubject();
 
@@ -45,7 +51,7 @@ function displayRecipes() {
 
 function recipeHasName(recipe) {
   let hasTitle = false;
-  if (recipe.name.toLowerCase().includes(globalSearch)) {
+  if (recipe.name.toLowerCase().includes(searchParams.label)) {
     hasTitle = true;
   }
   return hasTitle;
@@ -53,7 +59,7 @@ function recipeHasName(recipe) {
 
 function recipeHasDescription(recipe) {
   let hasDescription = false;
-  if (recipe.description.toLowerCase().includes(globalSearch)) {
+  if (recipe.description.toLowerCase().includes(searchParams.label)) {
     hasDescription = true;
   }
   return hasDescription;
@@ -64,7 +70,7 @@ function recipeHasIngredient(recipe) {
   if (recipe.ingredients.length) {
     for (let i = 0; i < recipe.ingredients.length; i++) {
       const ingredient = recipe.ingredients[i];
-      if (ingredient.ingredient.toLowerCase().includes(globalSearch)) {
+      if (ingredient.ingredient.toLowerCase().includes(searchParams.label)) {
         hasIngredient = true;
       }
     }
@@ -91,9 +97,9 @@ function bindSearchInput() {
   searchInput.addEventListener("keyup", (event) => {
     const value = event.target.value;
     if (value.length >= 3) {
-      globalSearch = value;
+      searchParams.label = value;
     } else {
-      globalSearch = "";
+      searchParams.label = "";
     }
     searchRecipes();
   });
