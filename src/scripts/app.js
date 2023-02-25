@@ -12,13 +12,13 @@ import comboboxTemplate from "./templates/comboboxTemplate.js";
 import recipeTemplate from "./templates/recipeTemplate.js";
 import comboboxInit from "./utils/combobox.js";
 
+// Get all elements from datas
 const recipes = getDatas();
+const ingredients = getIngredients(recipes);
+const appliances = getAppliances(recipes);
+const ustensils = getUstensils(recipes);
 
-let filteredRecipes = recipes;
-const ingredients = getIngredients(filteredRecipes);
-const appliances = getAppliances(filteredRecipes);
-const ustensils = getUstensils(filteredRecipes);
-
+// Initialize search params
 let searchParams = {
   label: "",
   ingredients: [],
@@ -26,15 +26,25 @@ let searchParams = {
   ustensils: [],
 };
 
+// Initialize global filtered recipes array
+let filteredRecipes = recipes;
+
+// Initialize Search Subject
 const searchSub = searchSubject();
 
+// Define DOM elements
 const recipeWrapper = document.querySelector(".js-recipes-wrapper");
 const searchInput = document.getElementById("input-search");
 const comboboxesWrapper = document.getElementById("js-combobox-wrapper");
 
+/**
+ * Append recipes in wrapper based on global filteredRecipes Array
+ */
 function displayRecipes() {
   recipeWrapper.innerHTML = "";
+
   if (filteredRecipes.length) {
+    // Display cards if any
     for (let i = 0; i < filteredRecipes.length; i++) {
       const recipe = filteredRecipes[i];
       const tpl = recipeTemplate(recipe);
@@ -42,13 +52,20 @@ function displayRecipes() {
       recipeWrapper.appendChild(card);
     }
   } else {
+    // Display empty message if none
     recipeWrapper.innerHTML =
       "<p>Aucune recette ne correspond à votre critère… Vous pouvez chercher «&nbsp;tarte aux pommes&nbsp;», «&nbsp;poisson&nbsp;», etc.</p>";
   }
 
+  // Trigger Search Observers actions
   searchSub.fire(filteredRecipes);
 }
 
+/**
+ * Check if given Recipe has the "label" search param in its Name
+ * @param {Object} recipe
+ * @returns Boolean
+ */
 function recipeHasName(recipe) {
   let hasTitle = false;
   if (recipe.name.toLowerCase().includes(searchParams.label)) {
@@ -57,6 +74,11 @@ function recipeHasName(recipe) {
   return hasTitle;
 }
 
+/**
+ * Check if given Recipe has the "label" search param in its Description
+ * @param {Object} recipe
+ * @returns Boolean
+ */
 function recipeHasDescription(recipe) {
   let hasDescription = false;
   if (recipe.description.toLowerCase().includes(searchParams.label)) {
@@ -65,6 +87,11 @@ function recipeHasDescription(recipe) {
   return hasDescription;
 }
 
+/**
+ * Check if given Recipe has the "label" search param in its Ingredients
+ * @param {Object} recipe
+ * @returns Boolean
+ */
 function recipeHasIngredient(recipe) {
   let hasIngredient = false;
   if (recipe.ingredients.length) {
@@ -78,6 +105,13 @@ function recipeHasIngredient(recipe) {
   return hasIngredient;
 }
 
+/**
+ * Filter recipes based on searchParams value
+ * First we check content based on searchParams "label"
+ * Then we check tags based on searchParams "ingredients"   TODO
+ * Then we check tags based on searchParams "appliances"    TODO
+ * Lastly we check tags based on searchParams "ustensils"   TODO
+ */
 function searchRecipes() {
   let tmpRecipes = [];
   for (let i = 0; i < recipes.length; i++) {
@@ -90,9 +124,13 @@ function searchRecipes() {
     }
   }
   filteredRecipes = tmpRecipes;
+  // TODO Add search by tags
   displayRecipes();
 }
 
+/**
+ * Listen to the main search input to save its value in searchParams
+ */
 function bindSearchInput() {
   searchInput.addEventListener("keyup", (event) => {
     const value = event.target.value;
@@ -105,6 +143,9 @@ function bindSearchInput() {
   });
 }
 
+/**
+ * Create comboboxes contents
+ */
 function comboboxFill() {
   const comboboxes = [
     { values: ingredients, label: "Ingredients" },
@@ -120,6 +161,9 @@ function comboboxFill() {
   }
 }
 
+/**
+ * Subscribe to the Search Subject for each combobox
+ */
 function comboboxObservers() {
   const ingredientsObs = comboboxIngredients();
   searchSub.subscribe(ingredientsObs);
@@ -130,10 +174,10 @@ function comboboxObservers() {
 }
 
 function init() {
-  displayRecipes();
   comboboxFill();
   comboboxInit();
   comboboxObservers();
+  displayRecipes();
   bindSearchInput();
 }
 
