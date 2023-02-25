@@ -4,11 +4,10 @@ function getDatas() {
   return recipes;
 }
 
-function getIngredients() {
-  const recipes = getDatas();
+function getIngredients(recipes) {
   let ingredients = [];
   // Check each recipe
-  if (recipes.length) {
+  if (recipes && recipes.length) {
     for (let i = 0; i < recipes.length; i++) {
       const recipe = recipes[i];
       // Check each ingredient
@@ -39,11 +38,10 @@ function getIngredients() {
   return ingredients;
 }
 
-function getAppliance() {
-  const recipes = getDatas();
+function getAppliances(recipes) {
   let appliances = [];
   // Check each recipe
-  if (recipes.length) {
+  if (recipes && recipes.length) {
     for (let i = 0; i < recipes.length; i++) {
       let applianceExists = false;
       // Compare to each appliance already saved
@@ -66,11 +64,10 @@ function getAppliance() {
   return appliances;
 }
 
-function getUstensils() {
-  const recipes = getDatas();
+function getUstensils(recipes) {
   let ustensils = [];
   // Check each recipe
-  if (recipes.length) {
+  if (recipes && recipes.length) {
     for (let i = 0; i < recipes.length; i++) {
       const recipe = recipes[i];
       // Check each ustensil
@@ -98,4 +95,4 @@ function getUstensils() {
   return ustensils;
 }
 
-export { getDatas, getIngredients, getAppliance, getUstensils };
+export { getDatas, getIngredients, getAppliances, getUstensils };

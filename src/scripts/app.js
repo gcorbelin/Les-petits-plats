@@ -1,7 +1,7 @@
 import {
   getDatas,
   getIngredients,
-  getAppliance,
+  getAppliances,
   getUstensils,
 } from "./api/api.js";
 import comboboxTemplate from "./templates/comboboxTemplate.js";
@@ -9,18 +9,16 @@ import recipeTemplate from "./templates/recipeTemplate.js";
 import comboboxInit from "./utils/combobox.js";
 
 const recipes = getDatas();
-const ingredients = getIngredients();
-const appliances = getAppliance();
-const ustensils = getUstensils();
 
 let filteredRecipes = recipes;
+const ingredients = getIngredients(filteredRecipes);
+const appliances = getAppliances(filteredRecipes);
+const ustensils = getUstensils(filteredRecipes);
 let globalSearch = "";
 
 const recipeWrapper = document.querySelector(".js-recipes-wrapper");
 const searchInput = document.getElementById("input-search");
-const comboboxIngredients = document.getElementById("combobox-ingredients");
-const comboboxAppliances = document.getElementById("combobox-appliances");
-const comboboxUstensils = document.getElementById("combobox-ustensils");
+const comboboxesWrapper = document.getElementById("js-combobox-wrapper");
 
 function displayRecipes() {
   recipeWrapper.innerHTML = "";
@@ -94,17 +92,18 @@ function bindSearchInput() {
 }
 
 function comboboxFill() {
-  const comboboxIngredientsModel = comboboxTemplate(ingredients, "Ingredients");
-  const comboboxIngredientsHTML = comboboxIngredientsModel.getComboboxList();
-  comboboxIngredients.appendChild(comboboxIngredientsHTML);
+  const comboboxes = [
+    { values: ingredients, label: "Ingredients" },
+    { values: appliances, label: "Appliances" },
+    { values: ustensils, label: "Ustensils" },
+  ];
 
-  const comboboxAppliancesModel = comboboxTemplate(appliances, "Appliances");
-  const comboboxAppliancesHTML = comboboxAppliancesModel.getComboboxList();
-  comboboxAppliances.appendChild(comboboxAppliancesHTML);
-
-  const comboboxUstensilsModel = comboboxTemplate(ustensils, "Ustensils");
-  const comboboxUstensilsHTML = comboboxUstensilsModel.getComboboxList();
-  comboboxUstensils.appendChild(comboboxUstensilsHTML);
+  for (let i = 0; i < comboboxes.length; i++) {
+    const tmpCombobox = comboboxes[i];
+    const model = comboboxTemplate(tmpCombobox.values, tmpCombobox.label);
+    const HTML = model.getCombobox();
+    comboboxesWrapper.appendChild(HTML);
+  }
 }
 
 function init() {

@@ -147,13 +147,13 @@ a {
 .combobox {
   position: relative;
   border-radius: var(--border-radius); }
-  .combobox--theme-1 {
+  .form__combobox:nth-child(1) .combobox {
     background-color: var(--theme-color-1);
     color: var(--text-color-level-2); }
-  .combobox--theme-2 {
+  .form__combobox:nth-child(2) .combobox {
     background-color: var(--theme-color-2);
     color: var(--text-color-level-2); }
-  .combobox--theme-3 {
+  .form__combobox:nth-child(3) .combobox {
     background-color: var(--theme-color-3);
     color: var(--text-color-level-2); }
   .combobox__group {

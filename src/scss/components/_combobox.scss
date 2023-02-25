@@ -2,17 +2,17 @@
   position: relative;
   border-radius: var(--border-radius);
 
-  &--theme-1 {
+  .form__combobox:nth-child(1) & {
     background-color: var(--theme-color-1);
     color: var(--text-color-level-2);
   }
 
-  &--theme-2 {
+  .form__combobox:nth-child(2) & {
     background-color: var(--theme-color-2);
     color: var(--text-color-level-2);
   }
 
-  &--theme-3 {
+  .form__combobox:nth-child(3) & {
     background-color: var(--theme-color-3);
     color: var(--text-color-level-2);
   }
