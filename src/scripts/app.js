@@ -4,6 +4,10 @@ import {
   getAppliances,
   getUstensils,
 } from "./api/api.js";
+import comboboxAppliances from "./search/comboboxAppliances.js";
+import comboboxIngredients from "./search/comboboxIngredients.js";
+import comboboxUstensils from "./search/comboboxUstensils.js";
+import searchSubject from "./search/subject.js";
 import comboboxTemplate from "./templates/comboboxTemplate.js";
 import recipeTemplate from "./templates/recipeTemplate.js";
 import comboboxInit from "./utils/combobox.js";
@@ -15,6 +19,8 @@ const ingredients = getIngredients(filteredRecipes);
 const appliances = getAppliances(filteredRecipes);
 const ustensils = getUstensils(filteredRecipes);
 let globalSearch = "";
+
+const searchSub = searchSubject();
 
 const recipeWrapper = document.querySelector(".js-recipes-wrapper");
 const searchInput = document.getElementById("input-search");
@@ -33,6 +39,8 @@ function displayRecipes() {
     recipeWrapper.innerHTML =
       "<p>Aucune recette ne correspond à votre critère… Vous pouvez chercher «&nbsp;tarte aux pommes&nbsp;», «&nbsp;poisson&nbsp;», etc.</p>";
   }
+
+  searchSub.fire(filteredRecipes);
 }
 
 function recipeHasName(recipe) {
@@ -106,10 +114,20 @@ function comboboxFill() {
   }
 }
 
+function comboboxObservers() {
+  const ingredientsObs = comboboxIngredients();
+  searchSub.subscribe(ingredientsObs);
+  const appliancesObs = comboboxAppliances();
+  searchSub.subscribe(appliancesObs);
+  const ustensilsObs = comboboxUstensils();
+  searchSub.subscribe(ustensilsObs);
+}
+
 function init() {
   displayRecipes();
   comboboxFill();
   comboboxInit();
+  comboboxObservers();
   bindSearchInput();
 }
 
