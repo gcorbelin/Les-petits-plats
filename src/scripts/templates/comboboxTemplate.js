@@ -49,7 +49,7 @@ function comboboxTemplate(data, label) {
   function getComboboxList() {
     const comboboxElems = getComboboxItems();
     const comboboxList = `
-    <ul id="combobox-${label.toLowerCase()}-listbox" class="combobox__list" role="listbox" aria-label="${label}">
+    <ul id="combobox-${label.toLowerCase()}-listbox" class="combobox__list" role="listbox" aria-label="${label}" data-type="${label.toLowerCase()}">
       ${comboboxElems}
     </ul>`;
 

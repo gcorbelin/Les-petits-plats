@@ -10,6 +10,7 @@ import comboboxUstensils from "./search/comboboxUstensils.js";
 import searchSubject from "./search/subject.js";
 import comboboxTemplate from "./templates/comboboxTemplate.js";
 import recipeTemplate from "./templates/recipeTemplate.js";
+import tagTemplate from "./templates/tagTemplate.js";
 import comboboxInit from "./utils/combobox.js";
 
 // Get all elements from datas
@@ -36,6 +37,7 @@ const searchSub = searchSubject();
 const recipeWrapper = document.querySelector(".js-recipes-wrapper");
 const searchInput = document.getElementById("input-search");
 const comboboxesWrapper = document.getElementById("js-combobox-wrapper");
+const tagWrapper = document.getElementById("js-tags-wrapper");
 
 /**
  * Append recipes in wrapper based on global filteredRecipes Array
@@ -161,24 +163,79 @@ function comboboxFill() {
   }
 }
 
+function addTag(event) {
+  if (event.target.nodeName === "LI") {
+    const list = event.currentTarget;
+    const item = event.target;
+    const content = item.innerHTML;
+    const type = list.getAttribute("data-type");
+
+    let tagExists = false;
+    for (let i = 0; i < searchParams[type].length; i++) {
+      if (searchParams[type][i] === content) {
+        tagExists = true;
+      }
+    }
+
+    if (!tagExists) {
+      searchParams[type].push(content);
+
+      const tagModel = tagTemplate(content, type);
+      const tag = tagModel.getTag();
+      tagWrapper.appendChild(tag);
+
+      searchRecipes();
+    }
+  }
+}
+
+function removeTag(event) {
+  const button = event.target.closest("button");
+  if (button) {
+    const content = button.querySelector(".tag__content").innerHTML;
+    const type = button.getAttribute("data-type");
+    for (let i = 0; i < searchParams[type].length; i++) {
+      if (searchParams[type][i] === content) {
+        searchParams[type].splice(i, 1);
+      }
+    }
+
+    tagWrapper.removeChild(button);
+
+    searchRecipes();
+  }
+}
+
 /**
  * Subscribe to the Search Subject for each combobox
  */
-function comboboxObservers() {
+function bindCombobox() {
+  // Set up observers
   const ingredientsObs = comboboxIngredients();
   searchSub.subscribe(ingredientsObs);
   const appliancesObs = comboboxAppliances();
   searchSub.subscribe(appliancesObs);
   const ustensilsObs = comboboxUstensils();
   searchSub.subscribe(ustensilsObs);
+  // Add event listeners
+  const comboboxLists = document.querySelectorAll(".combobox__list");
+  for (let i = 0; i < comboboxLists.length; i++) {
+    let list = comboboxLists[i];
+    list.addEventListener("click", (event) => addTag(event));
+  }
+}
+
+function bindTags() {
+  tagWrapper.addEventListener("click", (event) => removeTag(event));
 }
 
 function init() {
   comboboxFill();
   comboboxInit();
-  comboboxObservers();
+  bindCombobox();
   displayRecipes();
   bindSearchInput();
+  bindTags();
 }
 
 init();
