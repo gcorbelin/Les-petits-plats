@@ -1,3 +1,9 @@
+/**
+ * Bind all events needed to make a combobox work
+ * @param {node} comboboxNode
+ * @param {node} buttonNode
+ * @param {node} listboxNode
+ */
 function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
   // initialize pop up menu
   const comboboxWrapper = comboboxNode.closest(".js-combobox");
@@ -7,7 +13,7 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
   comboboxNode.addEventListener("keyup", (event) => onComboboxKeyUp(event));
   listboxNode.addEventListener("click", (event) => onListboxClick(event));
 
-  /* Display functions */
+  // State control functions
   function isOpen() {
     return comboboxWrapper.classList.contains("open");
   }
@@ -16,6 +22,7 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
     return !isOpen();
   }
 
+  // Display functions
   function open() {
     comboboxWrapper.classList.add("open");
     comboboxNode.setAttribute("aria-expanded", "true");
@@ -28,20 +35,22 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
     buttonNode.setAttribute("aria-expanded", "false");
   }
 
+  // Event dependent Actions
+  /**
+   * Close comboboxes when the user click outside of it
+   * @param {clickEvent} event
+   */
   function onDocumentClick(event) {
     const cbb = event.target.closest(".js-combobox");
     const comboboxes = document.querySelectorAll(".js-combobox");
 
-    if (cbb) {
-      for (let i = 0; i < comboboxes.length; i++) {
-        const combobox = comboboxes[i];
-        if (cbb && combobox !== cbb) {
+    for (let i = 0; i < comboboxes.length; i++) {
+      const combobox = comboboxes[i];
+      if (cbb) {
+        if (combobox !== cbb) {
           combobox.classList.remove("open");
         }
-      }
-    } else {
-      for (let i = 0; i < comboboxes.length; i++) {
-        const combobox = comboboxes[i];
+      } else {
         combobox.classList.remove("open");
       }
     }
@@ -64,6 +73,10 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
     }
   }
 
+  /**
+   * Filter LI elements on key inputs
+   * @param {keyUpEvent} event
+   */
   function onComboboxKeyUp(event) {
     open();
     let value = event.target.value.toLowerCase();
@@ -88,17 +101,18 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
 }
 
 // Initialize comboboxes
-function comboboxInit() {}
-window.addEventListener("load", function () {
-  let comboboxes = document.querySelectorAll(".js-combobox");
+function comboboxInit() {
+  window.addEventListener("load", function () {
+    let comboboxes = document.querySelectorAll(".js-combobox");
 
-  for (let i = 0; i < comboboxes.length; i++) {
-    let combobox = comboboxes[i];
-    let comboboxNode = combobox.querySelector("input");
-    let buttonNode = combobox.querySelector("button");
-    let listboxNode = combobox.querySelector('[role="listbox"]');
-    comboboxAutocomplete(comboboxNode, buttonNode, listboxNode);
-  }
-});
+    for (let i = 0; i < comboboxes.length; i++) {
+      let combobox = comboboxes[i];
+      let comboboxNode = combobox.querySelector("input");
+      let buttonNode = combobox.querySelector("button");
+      let listboxNode = combobox.querySelector('[role="listbox"]');
+      comboboxAutocomplete(comboboxNode, buttonNode, listboxNode);
+    }
+  });
+}
 
 export default comboboxInit;

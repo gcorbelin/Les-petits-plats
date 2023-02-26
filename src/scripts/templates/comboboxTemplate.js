@@ -1,4 +1,8 @@
 function comboboxTemplate(data, label) {
+  /**
+   * Create the combobox
+   * @returns HTML node containing the combobox markup
+   */
   function getCombobox() {
     const comboboxList = getComboboxList();
     const combobox = document.createElement("div");
@@ -46,6 +50,10 @@ function comboboxTemplate(data, label) {
     return combobox;
   }
 
+  /**
+   * Create the list
+   * @returns UL element containing LI elements inside an HTML string
+   */
   function getComboboxList() {
     const comboboxElems = getComboboxItems();
     const comboboxList = `
@@ -56,6 +64,10 @@ function comboboxTemplate(data, label) {
     return comboboxList;
   }
 
+  /**
+   * Create the list items
+   * @returns All LI elements inside an HTML string
+   */
   function getComboboxItems() {
     let comboboxElems = "";
 

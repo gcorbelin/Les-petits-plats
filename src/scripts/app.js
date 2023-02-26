@@ -163,51 +163,62 @@ function comboboxFill() {
   }
 }
 
-function addTag(event) {
-  if (event.target.nodeName === "LI") {
-    const list = event.currentTarget;
-    const item = event.target;
-    const content = item.innerHTML;
-    const type = list.getAttribute("data-type");
+/**
+ * Listen to LI elements click events to add a new tag containing its label and type
+ * Also update the searchParams object by adding the label inside the right array
+ * @param {clickEvent} event
+ */
+function addTag(list, item) {
+  const content = item.innerHTML;
+  const type = list.getAttribute("data-type");
 
-    let tagExists = false;
-    for (let i = 0; i < searchParams[type].length; i++) {
-      if (searchParams[type][i] === content) {
-        tagExists = true;
-      }
-    }
-
-    if (!tagExists) {
-      searchParams[type].push(content);
-
-      const tagModel = tagTemplate(content, type);
-      const tag = tagModel.getTag();
-      tagWrapper.appendChild(tag);
-
-      searchRecipes();
+  // Check if the clicked element already exists inside the searchParams Object
+  let tagExists = false;
+  for (let i = 0; i < searchParams[type].length; i++) {
+    if (searchParams[type][i] === content) {
+      tagExists = true;
     }
   }
-}
 
-function removeTag(event) {
-  const button = event.target.closest("button");
-  if (button) {
-    const content = button.querySelector(".tag__content").innerHTML;
-    const type = button.getAttribute("data-type");
-    for (let i = 0; i < searchParams[type].length; i++) {
-      if (searchParams[type][i] === content) {
-        searchParams[type].splice(i, 1);
-      }
-    }
+  if (!tagExists) {
+    // Add the tag inside the searchParams Object
+    searchParams[type].push(content);
 
-    tagWrapper.removeChild(button);
+    // Then create a tag button that can be removed
+    const tagModel = tagTemplate(content, type);
+    const tag = tagModel.getTag();
+    tagWrapper.appendChild(tag);
 
+    // Search with updated searchParams
     searchRecipes();
   }
 }
 
 /**
+ * Listen to tags elements click events to remove them from the DOM
+ * Also update the searchParams object by removing the label inside the right array
+ * @param {node} button clicked button element
+ */
+function removeTag(button) {
+  const content = button.querySelector(".tag__content").innerHTML;
+  const type = button.getAttribute("data-type");
+  // Remove label from searchParams Object
+  for (let i = 0; i < searchParams[type].length; i++) {
+    if (searchParams[type][i] === content) {
+      searchParams[type].splice(i, 1);
+    }
+  }
+
+  // Then remove the tag from the DOM
+  tagWrapper.removeChild(button);
+
+  // Search with updated searchParams
+  searchRecipes();
+}
+
+/**
  * Subscribe to the Search Subject for each combobox
+ * Also add an event listener on the lists (and not on the LI Elements as they are dynamically added or removed)
  */
 function bindCombobox() {
   // Set up observers
@@ -217,16 +228,32 @@ function bindCombobox() {
   searchSub.subscribe(appliancesObs);
   const ustensilsObs = comboboxUstensils();
   searchSub.subscribe(ustensilsObs);
-  // Add event listeners
+  // Add event listeners on the lists
   const comboboxLists = document.querySelectorAll(".combobox__list");
   for (let i = 0; i < comboboxLists.length; i++) {
     let list = comboboxLists[i];
-    list.addEventListener("click", (event) => addTag(event));
+    list.addEventListener("click", function (event) {
+      // Identify if the clicked element is a LI Element
+      if (event.target.nodeName === "LI") {
+        const list = event.currentTarget;
+        const item = event.target;
+        addTag(list, item);
+      }
+    });
   }
 }
 
+/**
+ * Add an event listener inside the tag wrapper Element
+ * Identify if the clicked element is a button (or inside a button) so it can be removed
+ */
 function bindTags() {
-  tagWrapper.addEventListener("click", (event) => removeTag(event));
+  tagWrapper.addEventListener("click", function (event) {
+    const button = event.target.closest("button");
+    if (button) {
+      removeTag(button);
+    }
+  });
 }
 
 function init() {

@@ -1,5 +1,8 @@
 function tagTemplate(content, type) {
-  console.log(type, content);
+  /**
+   * Create a tag Element using a given content and type
+   * @returns Tag node
+   */
   function getTag() {
     const tag = document.createElement("button");
     tag.classList.add("tag");

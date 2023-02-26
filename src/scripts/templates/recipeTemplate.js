@@ -3,7 +3,12 @@ import truncateString from "../utils/truncate.js";
 function recipeTemplate(data) {
   const { name, ingredients, time, description } = data;
 
+  /**
+   * Get full card
+   * @returns recipe card node
+   */
   function getRecipeCard() {
+    // Get ingredients
     let ingredientsList = "";
     if (ingredients.length) {
       for (let i = 0; i < ingredients.length; i++) {

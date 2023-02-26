@@ -19,7 +19,6 @@ function searchSubject() {
     for (let i = 0; i < observers.length; i++) {
       observers[i].update(datas);
     }
-    comboboxInit();
   }
 
   return { subscribe, unsubscribe, fire };

@@ -1,3 +1,9 @@
+/**
+ * Truncate given string to a given max length and add "..." at the end if needed
+ * @param {String} str String to truncate
+ * @param {Number} maxLength Max string length
+ * @returns truncated string
+ */
 function truncateString(str, maxLength) {
   if (str.length <= maxLength) {
     return str;
