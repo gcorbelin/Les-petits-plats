@@ -1,20 +1,11 @@
 function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
   // initialize pop up menu
   const comboboxWrapper = comboboxNode.closest(".js-combobox");
+  document.addEventListener("click", (event) => onDocumentClick(event));
   comboboxNode.addEventListener("click", onComboboxClick);
-  // comboboxNode.addEventListener("blur", close);
   buttonNode.addEventListener("click", onButtonClick);
   comboboxNode.addEventListener("keyup", (event) => onComboboxKeyUp(event));
-
-  // Traverse the element children of domNode: configure each with
-  // option role behavior and store reference in.options array.
-  let nodes = listboxNode.getElementsByTagName("LI");
-
-  for (let i = 0; i < nodes.length; i++) {
-    let node = nodes[i];
-
-    node.addEventListener("click", (event) => onOptionClick(event));
-  }
+  listboxNode.addEventListener("click", (event) => onListboxClick(event));
 
   /* Display functions */
   function isOpen() {
@@ -26,17 +17,34 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
   }
 
   function open() {
-    listboxNode.style.display = "block";
     comboboxWrapper.classList.add("open");
     comboboxNode.setAttribute("aria-expanded", "true");
     buttonNode.setAttribute("aria-expanded", "true");
   }
 
   function close() {
-    listboxNode.style.display = "none";
     comboboxWrapper.classList.remove("open");
     comboboxNode.setAttribute("aria-expanded", "false");
     buttonNode.setAttribute("aria-expanded", "false");
+  }
+
+  function onDocumentClick(event) {
+    const cbb = event.target.closest(".js-combobox");
+    const comboboxes = document.querySelectorAll(".js-combobox");
+
+    if (cbb) {
+      for (let i = 0; i < comboboxes.length; i++) {
+        const combobox = comboboxes[i];
+        if (cbb && combobox !== cbb) {
+          combobox.classList.remove("open");
+        }
+      }
+    } else {
+      for (let i = 0; i < comboboxes.length; i++) {
+        const combobox = comboboxes[i];
+        combobox.classList.remove("open");
+      }
+    }
   }
 
   function onComboboxClick() {
@@ -72,9 +80,10 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
     }
   }
 
-  function onOptionClick(event) {
-    close();
-    console.log(comboboxNode, event.target.textContent);
+  function onListboxClick(event) {
+    if (event.target.nodeName === "LI") {
+      close();
+    }
   }
 }
 

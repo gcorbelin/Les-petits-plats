@@ -18,8 +18,8 @@
   }
 
   &__group {
+    position: relative;
     display: inline-flex;
-    padding: 1rem 0.5rem;
     cursor: pointer;
   }
 
@@ -27,7 +27,6 @@
   &__button {
     position: relative;
     vertical-align: bottom;
-    height: 2rem;
     margin: 0;
     padding: 0;
     border: 0;
@@ -37,8 +36,9 @@
   }
 
   &__input {
-    width: 150px;
-    padding: 0.5rem;
+    width: 200px;
+    height: 4rem;
+    padding: 1.5rem 4rem 1.5rem 1rem;
     font-size: 1.125rem;
     font-weight: bold;
 
@@ -48,12 +48,12 @@
   }
 
   &__button {
+    position: absolute;
+    top: 1rem;
+    bottom: 1rem;
+    right: 0.5rem;
     width: 2rem;
     border-left: none;
-
-    &[aria-expanded="true"] i {
-      transform: rotate(180deg) translate(0, -3px);
-    }
   }
 
   &__list {
@@ -80,5 +80,15 @@
     padding-left: 3px;
     padding-top: 2px;
     padding-bottom: 2px;
+  }
+
+  &.open {
+    .combobox__button {
+      transform: rotate(180deg) translate(0, -3px);
+    }
+
+    .combobox__list {
+      display: block;
+    }
   }
 }

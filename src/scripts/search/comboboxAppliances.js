@@ -1,6 +1,5 @@
 import comboboxTemplate from "../templates/comboboxTemplate.js";
 import { getAppliances } from "../api/api.js";
-import comboboxInit from "../utils/combobox.js";
 
 function comboboxAppliances() {
   function update(recipes) {
