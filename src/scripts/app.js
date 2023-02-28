@@ -110,23 +110,77 @@ function recipeHasIngredient(recipe) {
 /**
  * Filter recipes based on searchParams value
  * First we check content based on searchParams "label"
- * Then we check tags based on searchParams "ingredients"   TODO
- * Then we check tags based on searchParams "appliances"    TODO
- * Lastly we check tags based on searchParams "ustensils"   TODO
+ * Then we check tags based on searchParams "ingredients"
+ * Then we check tags based on searchParams "appliances"
+ * Lastly we check tags based on searchParams "ustensils"
  */
 function searchRecipes() {
   let tmpRecipes = [];
   for (let i = 0; i < recipes.length; i++) {
-    if (
+    const recipe = recipes[i];
+
+    // First check: label is contained in Title, ingredients or description
+    let isLabelValid =
       recipeHasName(recipes[i]) ||
       recipeHasDescription(recipes[i]) ||
-      recipeHasIngredient(recipes[i])
+      recipeHasIngredient(recipes[i]);
+
+    // Second check: All ingredients tags are contained in recipe's Ingredients list
+    let isIngredientValid = true;
+    for (let j = 0; j < searchParams.ingredients.length; j++) {
+      const tag = searchParams.ingredients[j];
+      let hasTagInIngredients = false;
+      for (let k = 0; k < recipe.ingredients.length; k++) {
+        const ingredient = recipe.ingredients[k];
+        if (ingredient.ingredient.toLowerCase() === tag) {
+          hasTagInIngredients = true;
+        }
+      }
+      if (!hasTagInIngredients) {
+        isIngredientValid = false;
+      }
+    }
+
+    // Third check: All appliances tags are contained in recipe's Appliances list
+    let isApplianceValid = true;
+    for (let j = 0; j < searchParams.appliances.length; j++) {
+      const tag = searchParams.appliances[j];
+      let hasTagInAppliances = false;
+      if (recipe.appliance.toLowerCase() === tag) {
+        hasTagInAppliances = true;
+      }
+      if (!hasTagInAppliances) {
+        isApplianceValid = false;
+      }
+    }
+
+    // Fourth check: All ustensils tags are contained in recipe's Ustensils list
+    let isUstensilValid = true;
+    for (let j = 0; j < searchParams.ustensils.length; j++) {
+      const tag = searchParams.ustensils[j];
+      let hasTagInUstensils = false;
+      for (let k = 0; k < recipe.ustensils.length; k++) {
+        const ustensil = recipe.ustensils[k];
+        if (ustensil.toLowerCase() === tag) {
+          hasTagInUstensils = true;
+        }
+      }
+      if (!hasTagInUstensils) {
+        isUstensilValid = false;
+      }
+    }
+
+    // Add all conditions
+    if (
+      isLabelValid &&
+      isIngredientValid &&
+      isApplianceValid &&
+      isUstensilValid
     ) {
       tmpRecipes.push(recipes[i]);
     }
   }
   filteredRecipes = tmpRecipes;
-  // TODO Add search by tags
   displayRecipes();
 }
 
