@@ -6,7 +6,9 @@ function comboboxIngredients() {
     const ingredients = getIngredients(recipes);
     const comboboxIngredientsModel = comboboxTemplate(
       ingredients,
-      "Ingredients"
+      "ingredients",
+      "Ingrédients",
+      "Rechercher un ingrédient"
     );
 
     // Update items

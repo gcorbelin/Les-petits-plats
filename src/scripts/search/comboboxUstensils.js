@@ -4,7 +4,12 @@ import { getUstensils } from "../api/api.js";
 function comboboxUstensils() {
   function update(recipes) {
     const ustensils = getUstensils(recipes);
-    const comboboxUstensilsModel = comboboxTemplate(ustensils, "Ustensils");
+    const comboboxUstensilsModel = comboboxTemplate(
+      ustensils,
+      "Ustensils",
+      "Ustensils",
+      "Rechercher un ustensil"
+    );
 
     // Update items
     const comboboxUstensilsItemsHTML =

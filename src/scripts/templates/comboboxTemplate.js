@@ -1,4 +1,4 @@
-function comboboxTemplate(data, label) {
+function comboboxTemplate(data, id, label, placeholder) {
   /**
    * Create the combobox
    * @returns HTML node containing the combobox markup
@@ -7,36 +7,37 @@ function comboboxTemplate(data, label) {
     const comboboxList = getComboboxList();
     const combobox = document.createElement("div");
     combobox.classList.add("form__combobox");
-    combobox.setAttribute("id", `combobox-${label.toLowerCase()}-wrapper`);
+    combobox.setAttribute("id", `combobox-${id.toLowerCase()}-wrapper`);
 
     const comboboxContent = `
-      <label class="sr-only" for="combobox-${label.toLowerCase()}"
-        >${label}</label
+      <label class="sr-only" for="combobox-${id.toLowerCase()}"
+        >${placeholder}</label
       >
       <div
-        id="combobox-${label.toLowerCase()}"
+        id="combobox-${id.toLowerCase()}"
         class="combobox js-combobox"
       >
         <div class="combobox__group">
           <input
             type="text"
             class="combobox__input"
-            id="combobox-${label.toLowerCase()}"
-            name="combobox-${label.toLowerCase()}"
+            id="combobox-${id.toLowerCase()}"
+            name="combobox-${id.toLowerCase()}"
             placeholder="${label}"
+            data-placeholder="${placeholder}"
             role="combobox"
             aria-autocomplete="list"
             aria-expanded="false"
-            aria-controls="combobox-${label.toLowerCase()}-listbox"
+            aria-controls="combobox-${id.toLowerCase()}-listbox"
           />
           <button
             type="button"
             class="combobox__button"
-            id="combobox-${label.toLowerCase()}-button"
+            id="combobox-${id.toLowerCase()}-button"
             tabindex="-1"
-            aria-label="${label}"
+            aria-label="${placeholder}"
             aria-expanded="false"
-            aria-controls="combobox-${label.toLowerCase()}-listbox"
+            aria-controls="combobox-${id.toLowerCase()}-listbox"
           >
             <i class="fa fa-chevron-down" aria-hidden="true"></i>
           </button>
@@ -57,7 +58,7 @@ function comboboxTemplate(data, label) {
   function getComboboxList() {
     const comboboxElems = getComboboxItems();
     const comboboxList = `
-    <ul id="combobox-${label.toLowerCase()}-listbox" class="combobox__list" role="listbox" aria-label="${label}" data-type="${label.toLowerCase()}">
+    <ul id="combobox-${id.toLowerCase()}-listbox" class="combobox__list" role="listbox" aria-label="${label}" data-type="${id.toLowerCase()}">
       ${comboboxElems}
     </ul>`;
 
@@ -75,7 +76,7 @@ function comboboxTemplate(data, label) {
       for (let i = 0; i < data.length; i++) {
         const elem = data[i];
         const comboboxElem = `
-          <li id="combobox-${label.toLowerCase()}-${i}" class="combobox__item" role="option">${elem}</li>`;
+          <li id="combobox-${id.toLowerCase()}-${i}" class="combobox__item" role="option">${elem}</li>`;
         comboboxElems += comboboxElem;
       }
     }

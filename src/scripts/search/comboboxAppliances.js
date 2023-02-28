@@ -4,7 +4,12 @@ import { getAppliances } from "../api/api.js";
 function comboboxAppliances() {
   function update(recipes) {
     const appliances = getAppliances(recipes);
-    const comboboxAppliancesModel = comboboxTemplate(appliances, "Appliances");
+    const comboboxAppliancesModel = comboboxTemplate(
+      appliances,
+      "appliances",
+      "Appareils",
+      "Rechercher un appareil"
+    );
 
     // Update items
     const comboboxAppliancesItemsHTML =

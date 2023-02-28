@@ -20,6 +20,7 @@
   &__group {
     position: relative;
     display: inline-flex;
+    width: 100%;
     cursor: pointer;
   }
 
@@ -36,7 +37,7 @@
   }
 
   &__input {
-    width: 200px;
+    width: 100%;
     height: 4rem;
     padding: 1.5rem 4rem 1.5rem 1rem;
     font-size: 1.125rem;
@@ -44,6 +45,10 @@
 
     &::placeholder {
       color: var(--text-color-level-2);
+    }
+
+    .open &::placeholder {
+      opacity: 0.5;
     }
   }
 
@@ -54,6 +59,10 @@
     right: 0.5rem;
     width: 2rem;
     border-left: none;
+
+    .open & {
+      transform: rotate(180deg) translate(0, -3px);
+    }
   }
 
   &__list {
@@ -72,23 +81,31 @@
     overflow: auto;
     overflow-x: hidden;
     cursor: pointer;
+
+    .open & {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 1rem;
+    }
   }
 
   &__item {
     display: block;
+    width: 100%;
+    max-width: 190px;
     margin: 0;
-    padding-left: 3px;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     padding-top: 2px;
     padding-bottom: 2px;
   }
+}
+
+.form__combobox {
+  width: 100%;
+  max-width: 200px;
 
   &.open {
-    .combobox__button {
-      transform: rotate(180deg) translate(0, -3px);
-    }
-
-    .combobox__list {
-      display: block;
-    }
+    max-width: 660px;
   }
 }

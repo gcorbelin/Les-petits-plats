@@ -6,7 +6,7 @@
  */
 function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
   // initialize pop up menu
-  const comboboxWrapper = comboboxNode.closest(".js-combobox");
+  const comboboxWrapper = comboboxNode.closest(".form__combobox");
   document.addEventListener("click", (event) => onDocumentClick(event));
   comboboxNode.addEventListener("click", onComboboxClick);
   buttonNode.addEventListener("click", onButtonClick);
@@ -27,6 +27,10 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
   function open() {
     comboboxWrapper.classList.add("open");
     comboboxNode.setAttribute("aria-expanded", "true");
+    comboboxNode.setAttribute(
+      "placeholder",
+      comboboxNode.getAttribute("data-placeholder")
+    );
     buttonNode.setAttribute("aria-expanded", "true");
   }
 
@@ -49,8 +53,8 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
    * @param {clickEvent} event
    */
   function onDocumentClick(event) {
-    const cbb = event.target.closest(".js-combobox");
-    const comboboxes = document.querySelectorAll(".js-combobox");
+    const cbb = event.target.closest(".form__combobox");
+    const comboboxes = document.querySelectorAll(".form__combobox");
 
     for (let i = 0; i < comboboxes.length; i++) {
       const combobox = comboboxes[i];
@@ -83,7 +87,7 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
 
   /**
    * Filter LI elements on key inputs
-   * @param {keyupEvent} event
+   * @param {keyUpEvent} event
    */
   function onComboboxKeyUp(event) {
     open();
@@ -136,7 +140,7 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
 // Initialize comboboxes
 function comboboxInit() {
   window.addEventListener("load", function () {
-    let comboboxes = document.querySelectorAll(".js-combobox");
+    let comboboxes = document.querySelectorAll(".form__combobox");
 
     for (let i = 0; i < comboboxes.length; i++) {
       let combobox = comboboxes[i];

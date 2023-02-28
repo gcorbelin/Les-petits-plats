@@ -204,14 +204,34 @@ function bindSearchInput() {
  */
 function comboboxFill() {
   const comboboxes = [
-    { values: ingredients, label: "Ingredients" },
-    { values: appliances, label: "Appliances" },
-    { values: ustensils, label: "Ustensils" },
+    {
+      values: ingredients,
+      id: "Ingredients",
+      label: "Ingrédients",
+      placeholder: "Rechercher un ingrédient",
+    },
+    {
+      values: appliances,
+      id: "Appliances",
+      label: "Appareils",
+      placeholder: "Rechercher un appareil",
+    },
+    {
+      values: ustensils,
+      id: "Ustensils",
+      label: "Ustensils",
+      placeholder: "Rechercher un ustensil",
+    },
   ];
 
   for (let i = 0; i < comboboxes.length; i++) {
     const tmpCombobox = comboboxes[i];
-    const model = comboboxTemplate(tmpCombobox.values, tmpCombobox.label);
+    const model = comboboxTemplate(
+      tmpCombobox.values,
+      tmpCombobox.id,
+      tmpCombobox.label,
+      tmpCombobox.placeholder
+    );
     const HTML = model.getCombobox();
     comboboxesWrapper.appendChild(HTML);
   }
