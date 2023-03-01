@@ -13,6 +13,7 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
   comboboxNode.addEventListener("keydown", (event) => onComboboxKeyDown(event));
   comboboxNode.addEventListener("keyup", (event) => onComboboxKeyUp(event));
   listboxNode.addEventListener("click", (event) => onListboxClick(event));
+  const placeholder = comboboxNode.getAttribute("placeholder");
 
   // State control functions
   function isOpen() {
@@ -23,14 +24,20 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
     return !isOpen();
   }
 
-  // Display functions
-  function open() {
-    comboboxWrapper.classList.add("open");
-    comboboxNode.setAttribute("aria-expanded", "true");
+  function switchPlaceholder() {
+    const placeholder = comboboxNode.getAttribute("placeholder");
     comboboxNode.setAttribute(
       "placeholder",
       comboboxNode.getAttribute("data-placeholder")
     );
+    comboboxNode.setAttribute("data-placeholder", placeholder);
+  }
+
+  // Display functions
+  function open() {
+    comboboxWrapper.classList.add("open");
+    comboboxNode.setAttribute("aria-expanded", "true");
+    switchPlaceholder();
     buttonNode.setAttribute("aria-expanded", "true");
   }
 
@@ -38,6 +45,7 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
     comboboxWrapper.classList.remove("open");
     comboboxNode.value = "";
     comboboxNode.setAttribute("aria-expanded", "false");
+    switchPlaceholder();
     buttonNode.setAttribute("aria-expanded", "false");
     let options = listboxNode.querySelectorAll('li[role="option"]');
     if (options.length) {
