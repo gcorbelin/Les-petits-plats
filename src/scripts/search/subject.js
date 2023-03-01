@@ -8,17 +8,13 @@ function searchSubject() {
   }
 
   function unsubscribe(observer) {
-    for (let i = 0; i < observers.length; i++) {
-      if (observers[i] === observer) {
-        observers.splice(i, 1);
-      }
-    }
+    observers = observers.filter((obs) => obs !== observer);
   }
 
   function fire(datas) {
-    for (let i = 0; i < observers.length; i++) {
-      observers[i].update(datas);
-    }
+    observers.forEach((obs) => {
+      obs.update(datas);
+    });
   }
 
   return { subscribe, unsubscribe, fire };
