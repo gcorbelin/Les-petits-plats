@@ -48,11 +48,9 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
     switchPlaceholder();
     buttonNode.setAttribute("aria-expanded", "false");
     let options = listboxNode.querySelectorAll('li[role="option"]');
-    if (options.length) {
-      for (let i = 0; i < options.length; i++) {
-        options[i].style.display = "block";
-      }
-    }
+    options.forEach((option) => {
+      option.style.display = "block";
+    });
   }
 
   // Event dependent Actions
@@ -64,8 +62,7 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
     const cbb = event.target.closest(".form__combobox");
     const comboboxes = document.querySelectorAll(".form__combobox");
 
-    for (let i = 0; i < comboboxes.length; i++) {
-      const combobox = comboboxes[i];
+    comboboxes.forEach((combobox) => {
       if (cbb) {
         if (combobox !== cbb) {
           combobox.classList.remove("open");
@@ -73,7 +70,7 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
       } else {
         combobox.classList.remove("open");
       }
-    }
+    });
   }
 
   function onComboboxClick() {
@@ -101,16 +98,14 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
     open();
     let value = event.target.value.toLowerCase();
     let options = listboxNode.querySelectorAll('li[role="option"]');
-    if (options.length) {
-      for (let i = 0; i < options.length; i++) {
-        const optionContent = options[i].textContent || options[i].innerText;
-        if (optionContent.toLowerCase().includes(value)) {
-          options[i].style.display = "block";
-        } else {
-          options[i].style.display = "none";
-        }
+    options.forEach((option) => {
+      const optionContent = option.textContent || option.innerText;
+      if (optionContent.toLowerCase().includes(value)) {
+        option.style.display = "block";
+      } else {
+        option.style.display = "none";
       }
-    }
+    });
   }
 
   /**
@@ -150,13 +145,12 @@ function comboboxInit() {
   window.addEventListener("load", function () {
     let comboboxes = document.querySelectorAll(".form__combobox");
 
-    for (let i = 0; i < comboboxes.length; i++) {
-      let combobox = comboboxes[i];
+    comboboxes.forEach((combobox) => {
       let comboboxNode = combobox.querySelector("input");
       let buttonNode = combobox.querySelector("button");
       let listboxNode = combobox.querySelector('[role="listbox"]');
       comboboxAutocomplete(comboboxNode, buttonNode, listboxNode);
-    }
+    });
   });
 }
 
