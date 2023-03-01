@@ -70,16 +70,12 @@ function comboboxTemplate(data, id, label, placeholder) {
    * @returns All LI elements inside an HTML string
    */
   function getComboboxItems() {
-    let comboboxElems = "";
-
-    if (data.length) {
-      for (let i = 0; i < data.length; i++) {
-        const elem = data[i];
-        const comboboxElem = `
-          <li id="combobox-${id.toLowerCase()}-${i}" class="combobox__item" role="option">${elem}</li>`;
-        comboboxElems += comboboxElem;
-      }
-    }
+    const comboboxElems = data
+      .map(
+        (elem, i) =>
+          `<li id="combobox-${id.toLowerCase()}-${i}" class="combobox__item" role="option">${elem}</li>`
+      )
+      .join("");
 
     return comboboxElems;
   }
