@@ -46,13 +46,11 @@ function displayRecipes() {
   recipeWrapper.innerHTML = "";
 
   if (filteredRecipes.length) {
-    // Display cards if any
-    for (let i = 0; i < filteredRecipes.length; i++) {
-      const recipe = filteredRecipes[i];
+    filteredRecipes.forEach((recipe) => {
       const tpl = recipeTemplate(recipe);
       const card = tpl.getRecipeCard();
       recipeWrapper.appendChild(card);
-    }
+    });
   } else {
     // Display empty message if none
     recipeWrapper.innerHTML =
@@ -96,14 +94,11 @@ function recipeHasDescription(recipe) {
  */
 function recipeHasIngredient(recipe) {
   let hasIngredient = false;
-  if (recipe.ingredients.length) {
-    for (let i = 0; i < recipe.ingredients.length; i++) {
-      const ingredient = recipe.ingredients[i];
-      if (ingredient.ingredient.toLowerCase().includes(searchParams.label)) {
-        hasIngredient = true;
-      }
+  recipe.ingredients.forEach((ingredient) => {
+    if (ingredient.ingredient.toLowerCase().includes(searchParams.label)) {
+      hasIngredient = true;
     }
-  }
+  });
   return hasIngredient;
 }
 
@@ -116,35 +111,29 @@ function recipeHasIngredient(recipe) {
  */
 function searchRecipes() {
   let tmpRecipes = [];
-  for (let i = 0; i < recipes.length; i++) {
-    const recipe = recipes[i];
-
+  recipes.forEach((recipe) => {
     // First check: label is contained in Title, ingredients or description
     let isLabelValid =
-      recipeHasName(recipes[i]) ||
-      recipeHasDescription(recipes[i]) ||
-      recipeHasIngredient(recipes[i]);
+      recipeHasName(recipe) ||
+      recipeHasDescription(recipe) ||
+      recipeHasIngredient(recipe);
 
     // Second check: All ingredients tags are contained in recipe's Ingredients list
     let isIngredientValid = true;
-    for (let j = 0; j < searchParams.ingredients.length; j++) {
-      const tag = searchParams.ingredients[j];
-      let hasTagInIngredients = false;
-      for (let k = 0; k < recipe.ingredients.length; k++) {
-        const ingredient = recipe.ingredients[k];
-        if (ingredient.ingredient.toLowerCase() === tag) {
-          hasTagInIngredients = true;
-        }
-      }
+    const ingredients = searchParams.ingredients;
+    ingredients.forEach((tag) => {
+      let hasTagInIngredients = recipe.ingredients.some(
+        (ingredient) => ingredient.ingredient.toLowerCase() === tag
+      );
       if (!hasTagInIngredients) {
         isIngredientValid = false;
       }
-    }
+    });
 
     // Third check: All appliances tags are contained in recipe's Appliances list
     let isApplianceValid = true;
-    for (let j = 0; j < searchParams.appliances.length; j++) {
-      const tag = searchParams.appliances[j];
+    let appliances = searchParams.appliances;
+    appliances.forEach((tag) => {
       let hasTagInAppliances = false;
       if (recipe.appliance.toLowerCase() === tag) {
         hasTagInAppliances = true;
@@ -152,23 +141,19 @@ function searchRecipes() {
       if (!hasTagInAppliances) {
         isApplianceValid = false;
       }
-    }
+    });
 
     // Fourth check: All ustensils tags are contained in recipe's Ustensils list
     let isUstensilValid = true;
-    for (let j = 0; j < searchParams.ustensils.length; j++) {
-      const tag = searchParams.ustensils[j];
-      let hasTagInUstensils = false;
-      for (let k = 0; k < recipe.ustensils.length; k++) {
-        const ustensil = recipe.ustensils[k];
-        if (ustensil.toLowerCase() === tag) {
-          hasTagInUstensils = true;
-        }
-      }
+    let ustensils = searchParams.ustensils;
+    ustensils.forEach((tag) => {
+      let hasTagInUstensils = recipe.ustensils.some(
+        (ustensil) => ustensil.toLowerCase() === tag
+      );
       if (!hasTagInUstensils) {
         isUstensilValid = false;
       }
-    }
+    });
 
     // Add all conditions
     if (
@@ -177,9 +162,9 @@ function searchRecipes() {
       isApplianceValid &&
       isUstensilValid
     ) {
-      tmpRecipes.push(recipes[i]);
+      tmpRecipes.push(recipe);
     }
-  }
+  });
   filteredRecipes = tmpRecipes;
   displayRecipes();
 }
@@ -224,8 +209,7 @@ function comboboxFill() {
     },
   ];
 
-  for (let i = 0; i < comboboxes.length; i++) {
-    const tmpCombobox = comboboxes[i];
+  comboboxes.forEach((tmpCombobox) => {
     const model = comboboxTemplate(
       tmpCombobox.values,
       tmpCombobox.id,
@@ -234,7 +218,7 @@ function comboboxFill() {
     );
     const HTML = model.getCombobox();
     comboboxesWrapper.appendChild(HTML);
-  }
+  });
 }
 
 /**
@@ -247,14 +231,7 @@ function addTag(list, item) {
   const type = list.getAttribute("data-type");
 
   // Check if the clicked element already exists inside the searchParams Object
-  let tagExists = false;
-  for (let i = 0; i < searchParams[type].length; i++) {
-    if (searchParams[type][i] === content) {
-      tagExists = true;
-    }
-  }
-
-  if (!tagExists) {
+  if (!searchParams[type].find((tag) => tag === content)) {
     // Add the tag inside the searchParams Object
     searchParams[type].push(content);
 
@@ -277,11 +254,7 @@ function removeTag(button) {
   const content = button.querySelector(".tag__content").innerHTML;
   const type = button.getAttribute("data-type");
   // Remove label from searchParams Object
-  for (let i = 0; i < searchParams[type].length; i++) {
-    if (searchParams[type][i] === content) {
-      searchParams[type].splice(i, 1);
-    }
-  }
+  searchParams[type] = searchParams[type].filter((param) => param !== content);
 
   // Then remove the tag from the DOM
   tagWrapper.removeChild(button);
@@ -304,8 +277,7 @@ function bindCombobox() {
   searchSub.subscribe(ustensilsObs);
   // Add event listeners on the lists
   const comboboxLists = document.querySelectorAll(".combobox__list");
-  for (let i = 0; i < comboboxLists.length; i++) {
-    let list = comboboxLists[i];
+  comboboxLists.forEach((list) => {
     list.addEventListener("click", function (event) {
       // Identify if the clicked element is a LI Element
       if (event.target.nodeName === "LI") {
@@ -314,7 +286,7 @@ function bindCombobox() {
         addTag(list, item);
       }
     });
-  }
+  });
 }
 
 /**
