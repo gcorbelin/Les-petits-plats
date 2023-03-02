@@ -340,3 +340,26 @@ function init() {
 }
 
 init();
+
+var suite = new Benchmark.Suite();
+
+// add tests
+suite
+  .add("getIngredients", function () {
+    getIngredients(recipes);
+  })
+  .add("getAppliances", function () {
+    getAppliances(recipes);
+  })
+  .add("getUstensils", function () {
+    getUstensils(recipes);
+  })
+  // add listeners
+  .on("cycle", function (event) {
+    console.log(String(event.target));
+  })
+  .on("complete", function () {
+    console.log("Fastest is " + this.filter("fastest").map("name"));
+  })
+  // run async
+  .run({ async: true });
