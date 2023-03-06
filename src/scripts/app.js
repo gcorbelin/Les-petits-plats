@@ -54,7 +54,7 @@ function displayRecipes() {
   } else {
     // Display empty message if none
     recipeWrapper.innerHTML =
-      "<p>Aucune recette ne correspond à votre critère… Vous pouvez chercher «&nbsp;tarte aux pommes&nbsp;», «&nbsp;poisson&nbsp;», etc.</p>";
+      "<p class='empty-message'>Aucune recette ne correspond à votre critère… Vous pouvez chercher «&nbsp;tarte aux pommes&nbsp;», «&nbsp;poisson&nbsp;», etc.</p>";
   }
 
   // Trigger Search Observers actions
