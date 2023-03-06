@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import recipes from "../../data/recipes.js";
 
 function getDatas() {
@@ -5,7 +6,7 @@ function getDatas() {
 }
 
 function getIngredients(recipes) {
-  let allIngredients = [];
+  const allIngredients = [];
   // Check each recipe
   recipes.forEach((recipe) => {
     const ings = recipe.ingredients;
@@ -22,7 +23,7 @@ function getIngredients(recipes) {
 }
 
 function getAppliances(recipes) {
-  let allAppliances = [];
+  const allAppliances = [];
   // Check each recipe
   recipes.forEach((recipe) => {
     allAppliances.push(recipe.appliance.toLowerCase());
@@ -33,7 +34,7 @@ function getAppliances(recipes) {
 }
 
 function getUstensils(recipes) {
-  let allUstensils = [];
+  const allUstensils = [];
   // Check each recipe
   recipes.forEach((recipe) => {
     const usts = recipe.ustensils;

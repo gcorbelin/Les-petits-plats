@@ -1,5 +1,34 @@
 function comboboxTemplate(data, id, label, placeholder) {
   /**
+   * Create the list items
+   * @returns All LI elements inside an HTML string
+   */
+  function getComboboxItems() {
+    const comboboxElems = data
+      .map(
+        (elem, i) =>
+          `<li id="combobox-${id.toLowerCase()}-${i}" class="combobox__item" role="option">${elem}</li>`
+      )
+      .join("");
+
+    return comboboxElems;
+  }
+
+  /**
+   * Create the list
+   * @returns UL element containing LI elements inside an HTML string
+   */
+  function getComboboxList() {
+    const comboboxElems = getComboboxItems();
+    const comboboxList = `
+    <ul id="combobox-${id.toLowerCase()}-listbox" class="combobox__list" role="listbox" aria-label="${label}" data-type="${id.toLowerCase()}">
+      ${comboboxElems}
+    </ul>`;
+
+    return comboboxList;
+  }
+
+  /**
    * Create the combobox
    * @returns HTML node containing the combobox markup
    */
@@ -48,35 +77,6 @@ function comboboxTemplate(data, id, label, placeholder) {
     combobox.innerHTML = comboboxContent;
 
     return combobox;
-  }
-
-  /**
-   * Create the list
-   * @returns UL element containing LI elements inside an HTML string
-   */
-  function getComboboxList() {
-    const comboboxElems = getComboboxItems();
-    const comboboxList = `
-    <ul id="combobox-${id.toLowerCase()}-listbox" class="combobox__list" role="listbox" aria-label="${label}" data-type="${id.toLowerCase()}">
-      ${comboboxElems}
-    </ul>`;
-
-    return comboboxList;
-  }
-
-  /**
-   * Create the list items
-   * @returns All LI elements inside an HTML string
-   */
-  function getComboboxItems() {
-    const comboboxElems = data
-      .map(
-        (elem, i) =>
-          `<li id="combobox-${id.toLowerCase()}-${i}" class="combobox__item" role="option">${elem}</li>`
-      )
-      .join("");
-
-    return comboboxElems;
   }
 
   return { getCombobox, getComboboxList, getComboboxItems };

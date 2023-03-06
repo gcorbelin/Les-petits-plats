@@ -18,7 +18,7 @@ function recipeTemplate(data) {
       }</li>`;
     });
 
-    let recipeCard = document.createElement("article");
+    const recipeCard = document.createElement("article");
     recipeCard.classList.add("card");
     const recipe = `
     <article class="card">

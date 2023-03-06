@@ -12,6 +12,13 @@
       {
         "endOfLine": "auto"
       }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "always"
+      }
     ]
   },
   "overrides": [],

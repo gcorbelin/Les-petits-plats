@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 import {
   getDatas,
   getIngredients,
@@ -20,7 +21,7 @@ const appliances = getAppliances(recipes);
 const ustensils = getUstensils(recipes);
 
 // Initialize search params
-let searchParams = {
+const searchParams = {
   label: "",
   ingredients: [],
   appliances: [],
@@ -110,19 +111,19 @@ function recipeHasIngredient(recipe) {
  * Lastly we check tags based on searchParams "ustensils"
  */
 function searchRecipes() {
-  let tmpRecipes = [];
+  const tmpRecipes = [];
   recipes.forEach((recipe) => {
     // First check: label is contained in Title, ingredients or description
-    let isLabelValid =
+    const isLabelValid =
       recipeHasName(recipe) ||
       recipeHasDescription(recipe) ||
       recipeHasIngredient(recipe);
 
     // Second check: All ingredients tags are contained in recipe's Ingredients list
     let isIngredientValid = true;
-    const ingredients = searchParams.ingredients;
+    const { ingredients } = searchParams;
     ingredients.forEach((tag) => {
-      let hasTagInIngredients = recipe.ingredients.some(
+      const hasTagInIngredients = recipe.ingredients.some(
         (ingredient) => ingredient.ingredient.toLowerCase() === tag
       );
       if (!hasTagInIngredients) {
@@ -132,7 +133,7 @@ function searchRecipes() {
 
     // Third check: All appliances tags are contained in recipe's Appliances list
     let isApplianceValid = true;
-    let appliances = searchParams.appliances;
+    const { appliances } = searchParams;
     appliances.forEach((tag) => {
       let hasTagInAppliances = false;
       if (recipe.appliance.toLowerCase() === tag) {
@@ -145,9 +146,9 @@ function searchRecipes() {
 
     // Fourth check: All ustensils tags are contained in recipe's Ustensils list
     let isUstensilValid = true;
-    let ustensils = searchParams.ustensils;
+    const { ustensils } = searchParams;
     ustensils.forEach((tag) => {
-      let hasTagInUstensils = recipe.ustensils.some(
+      const hasTagInUstensils = recipe.ustensils.some(
         (ustensil) => ustensil.toLowerCase() === tag
       );
       if (!hasTagInUstensils) {
@@ -174,7 +175,7 @@ function searchRecipes() {
  */
 function bindSearchInput() {
   searchInput.addEventListener("keyup", (event) => {
-    const value = event.target.value;
+    const { value } = event.target;
     if (value.length >= 3) {
       searchParams.label = value;
     } else {
@@ -278,7 +279,7 @@ function bindCombobox() {
   // Add event listeners on the lists
   const comboboxLists = document.querySelectorAll(".combobox__list");
   comboboxLists.forEach((list) => {
-    list.addEventListener("click", function (event) {
+    list.addEventListener("click", (event) => {
       // Identify if the clicked element is a LI Element
       if (event.target.nodeName === "LI") {
         const list = event.currentTarget;
@@ -294,7 +295,7 @@ function bindCombobox() {
  * Identify if the clicked element is a button (or inside a button) so it can be removed
  */
 function bindTags() {
-  tagWrapper.addEventListener("click", function (event) {
+  tagWrapper.addEventListener("click", (event) => {
     const button = event.target.closest("button");
     if (button) {
       removeTag(button);
@@ -313,25 +314,26 @@ function init() {
 
 init();
 
-var suite = new Benchmark.Suite();
+// eslint-disable-next-line no-undef
+const suite = new Benchmark.Suite();
 
 // add tests
 suite
-  .add("getIngredients", function () {
+  .add("getIngredients", () => {
     getIngredients(recipes);
   })
-  .add("getAppliances", function () {
+  .add("getAppliances", () => {
     getAppliances(recipes);
   })
-  .add("getUstensils", function () {
+  .add("getUstensils", () => {
     getUstensils(recipes);
   })
   // add listeners
-  .on("cycle", function (event) {
+  .on("cycle", (event) => {
     console.log(String(event.target));
   })
   .on("complete", function () {
-    console.log("Fastest is " + this.filter("fastest").map("name"));
+    console.log(`Fastest is ${this.filter("fastest").map("name")}`);
   })
   // run async
   .run({ async: true });

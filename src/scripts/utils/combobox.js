@@ -5,23 +5,11 @@
  * @param {node} listboxNode
  */
 function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
-  // initialize pop up menu
   const comboboxWrapper = comboboxNode.closest(".form__combobox");
-  document.addEventListener("click", (event) => onDocumentClick(event));
-  comboboxNode.addEventListener("click", onComboboxClick);
-  buttonNode.addEventListener("click", onButtonClick);
-  comboboxNode.addEventListener("keydown", (event) => onComboboxKeyDown(event));
-  comboboxNode.addEventListener("keyup", (event) => onComboboxKeyUp(event));
-  listboxNode.addEventListener("click", (event) => onListboxClick(event));
-  const placeholder = comboboxNode.getAttribute("placeholder");
 
   // State control functions
   function isOpen() {
     return comboboxWrapper.classList.contains("open");
-  }
-
-  function isClosed() {
-    return !isOpen();
   }
 
   function switchPlaceholder() {
@@ -43,12 +31,14 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
 
   function close() {
     comboboxWrapper.classList.remove("open");
+    // eslint-disable-next-line no-param-reassign
     comboboxNode.value = "";
     comboboxNode.setAttribute("aria-expanded", "false");
     switchPlaceholder();
     buttonNode.setAttribute("aria-expanded", "false");
-    let options = listboxNode.querySelectorAll('li[role="option"]');
+    const options = listboxNode.querySelectorAll('li[role="option"]');
     options.forEach((option) => {
+      // eslint-disable-next-line no-param-reassign
       option.style.display = "block";
     });
   }
@@ -96,13 +86,15 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
    */
   function onComboboxKeyUp(event) {
     open();
-    let value = event.target.value.toLowerCase();
-    let options = listboxNode.querySelectorAll('li[role="option"]');
+    const value = event.target.value.toLowerCase();
+    const options = listboxNode.querySelectorAll('li[role="option"]');
     options.forEach((option) => {
       const optionContent = option.textContent || option.innerText;
       if (optionContent.toLowerCase().includes(value)) {
+        // eslint-disable-next-line no-param-reassign
         option.style.display = "block";
       } else {
+        // eslint-disable-next-line no-param-reassign
         option.style.display = "none";
       }
     });
@@ -138,17 +130,25 @@ function comboboxAutocomplete(comboboxNode, buttonNode, listboxNode) {
       close();
     }
   }
+
+  // initialize pop up menu
+  document.addEventListener("click", (event) => onDocumentClick(event));
+  comboboxNode.addEventListener("click", onComboboxClick);
+  buttonNode.addEventListener("click", onButtonClick);
+  comboboxNode.addEventListener("keydown", (event) => onComboboxKeyDown(event));
+  comboboxNode.addEventListener("keyup", (event) => onComboboxKeyUp(event));
+  listboxNode.addEventListener("click", (event) => onListboxClick(event));
 }
 
 // Initialize comboboxes
 function comboboxInit() {
-  window.addEventListener("load", function () {
-    let comboboxes = document.querySelectorAll(".form__combobox");
+  window.addEventListener("load", () => {
+    const comboboxes = document.querySelectorAll(".form__combobox");
 
     comboboxes.forEach((combobox) => {
-      let comboboxNode = combobox.querySelector("input");
-      let buttonNode = combobox.querySelector("button");
-      let listboxNode = combobox.querySelector('[role="listbox"]');
+      const comboboxNode = combobox.querySelector("input");
+      const buttonNode = combobox.querySelector("button");
+      const listboxNode = combobox.querySelector('[role="listbox"]');
       comboboxAutocomplete(comboboxNode, buttonNode, listboxNode);
     });
   });
