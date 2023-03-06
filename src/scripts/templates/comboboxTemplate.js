@@ -14,7 +14,6 @@ function comboboxTemplate(data, id, label, placeholder) {
         >${placeholder}</label
       >
       <div
-        id="combobox-${id.toLowerCase()}"
         class="combobox js-combobox"
       >
         <div class="combobox__group">
