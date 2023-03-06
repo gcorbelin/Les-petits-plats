@@ -1,14 +1,12 @@
-import comboboxInit from "../utils/combobox.js";
-
 function searchSubject() {
-  let observers = [];
+  const observers = [];
 
   function subscribe(observer) {
     observers.push(observer);
   }
 
   function unsubscribe(observer) {
-    for (let i = 0; i < observers.length; i++) {
+    for (let i = 0; i < observers.length; i += 1) {
       if (observers[i] === observer) {
         observers.splice(i, 1);
       }
@@ -16,7 +14,7 @@ function searchSubject() {
   }
 
   function fire(datas) {
-    for (let i = 0; i < observers.length; i++) {
+    for (let i = 0; i < observers.length; i += 1) {
       observers[i].update(datas);
     }
   }

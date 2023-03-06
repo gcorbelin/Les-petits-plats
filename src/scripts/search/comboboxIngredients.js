@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 import comboboxTemplate from "../templates/comboboxTemplate.js";
 import { getIngredients } from "../api/api.js";
 

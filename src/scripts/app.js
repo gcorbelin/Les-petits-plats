@@ -20,7 +20,7 @@ const appliances = getAppliances(recipes);
 const ustensils = getUstensils(recipes);
 
 // Initialize search params
-let searchParams = {
+const searchParams = {
   label: "",
   ingredients: [],
   appliances: [],
@@ -47,7 +47,7 @@ function displayRecipes() {
 
   if (filteredRecipes.length) {
     // Display cards if any
-    for (let i = 0; i < filteredRecipes.length; i++) {
+    for (let i = 0; i < filteredRecipes.length; i += 1) {
       const recipe = filteredRecipes[i];
       const tpl = recipeTemplate(recipe);
       const card = tpl.getRecipeCard();
@@ -97,7 +97,7 @@ function recipeHasDescription(recipe) {
 function recipeHasIngredient(recipe) {
   let hasIngredient = false;
   if (recipe.ingredients.length) {
-    for (let i = 0; i < recipe.ingredients.length; i++) {
+    for (let i = 0; i < recipe.ingredients.length; i += 1) {
       const ingredient = recipe.ingredients[i];
       if (ingredient.ingredient.toLowerCase().includes(searchParams.label)) {
         hasIngredient = true;
@@ -115,22 +115,22 @@ function recipeHasIngredient(recipe) {
  * Lastly we check tags based on searchParams "ustensils"
  */
 function searchRecipes() {
-  let tmpRecipes = [];
-  for (let i = 0; i < recipes.length; i++) {
+  const tmpRecipes = [];
+  for (let i = 0; i < recipes.length; i += 1) {
     const recipe = recipes[i];
 
     // First check: label is contained in Title, ingredients or description
-    let isLabelValid =
+    const isLabelValid =
       recipeHasName(recipes[i]) ||
       recipeHasDescription(recipes[i]) ||
       recipeHasIngredient(recipes[i]);
 
     // Second check: All ingredients tags are contained in recipe's Ingredients list
     let isIngredientValid = true;
-    for (let j = 0; j < searchParams.ingredients.length; j++) {
+    for (let j = 0; j < searchParams.ingredients.length; j += 1) {
       const tag = searchParams.ingredients[j];
       let hasTagInIngredients = false;
-      for (let k = 0; k < recipe.ingredients.length; k++) {
+      for (let k = 0; k < recipe.ingredients.length; k += 1) {
         const ingredient = recipe.ingredients[k];
         if (ingredient.ingredient.toLowerCase() === tag) {
           hasTagInIngredients = true;
@@ -143,7 +143,7 @@ function searchRecipes() {
 
     // Third check: All appliances tags are contained in recipe's Appliances list
     let isApplianceValid = true;
-    for (let j = 0; j < searchParams.appliances.length; j++) {
+    for (let j = 0; j < searchParams.appliances.length; j += 1) {
       const tag = searchParams.appliances[j];
       let hasTagInAppliances = false;
       if (recipe.appliance.toLowerCase() === tag) {
@@ -156,10 +156,10 @@ function searchRecipes() {
 
     // Fourth check: All ustensils tags are contained in recipe's Ustensils list
     let isUstensilValid = true;
-    for (let j = 0; j < searchParams.ustensils.length; j++) {
+    for (let j = 0; j < searchParams.ustensils.length; j += 1) {
       const tag = searchParams.ustensils[j];
       let hasTagInUstensils = false;
-      for (let k = 0; k < recipe.ustensils.length; k++) {
+      for (let k = 0; k < recipe.ustensils.length; k += 1) {
         const ustensil = recipe.ustensils[k];
         if (ustensil.toLowerCase() === tag) {
           hasTagInUstensils = true;
@@ -189,7 +189,7 @@ function searchRecipes() {
  */
 function bindSearchInput() {
   searchInput.addEventListener("keyup", (event) => {
-    const value = event.target.value;
+    const { value } = event.target;
     if (value.length >= 3) {
       searchParams.label = value;
     } else {
@@ -224,7 +224,7 @@ function comboboxFill() {
     },
   ];
 
-  for (let i = 0; i < comboboxes.length; i++) {
+  for (let i = 0; i < comboboxes.length; i += 1) {
     const tmpCombobox = comboboxes[i];
     const model = comboboxTemplate(
       tmpCombobox.values,
@@ -248,7 +248,7 @@ function addTag(list, item) {
 
   // Check if the clicked element already exists inside the searchParams Object
   let tagExists = false;
-  for (let i = 0; i < searchParams[type].length; i++) {
+  for (let i = 0; i < searchParams[type].length; i += 1) {
     if (searchParams[type][i] === content) {
       tagExists = true;
     }
@@ -277,7 +277,7 @@ function removeTag(button) {
   const content = button.querySelector(".tag__content").innerHTML;
   const type = button.getAttribute("data-type");
   // Remove label from searchParams Object
-  for (let i = 0; i < searchParams[type].length; i++) {
+  for (let i = 0; i < searchParams[type].length; i += 1) {
     if (searchParams[type][i] === content) {
       searchParams[type].splice(i, 1);
     }
@@ -304,14 +304,14 @@ function bindCombobox() {
   searchSub.subscribe(ustensilsObs);
   // Add event listeners on the lists
   const comboboxLists = document.querySelectorAll(".combobox__list");
-  for (let i = 0; i < comboboxLists.length; i++) {
-    let list = comboboxLists[i];
-    list.addEventListener("click", function (event) {
+  for (let i = 0; i < comboboxLists.length; i += 1) {
+    const list = comboboxLists[i];
+    list.addEventListener("click", (event) => {
       // Identify if the clicked element is a LI Element
       if (event.target.nodeName === "LI") {
-        const list = event.currentTarget;
+        const ul = event.currentTarget;
         const item = event.target;
-        addTag(list, item);
+        addTag(ul, item);
       }
     });
   }
@@ -322,7 +322,7 @@ function bindCombobox() {
  * Identify if the clicked element is a button (or inside a button) so it can be removed
  */
 function bindTags() {
-  tagWrapper.addEventListener("click", function (event) {
+  tagWrapper.addEventListener("click", (event) => {
     const button = event.target.closest("button");
     if (button) {
       removeTag(button);
@@ -341,25 +341,26 @@ function init() {
 
 init();
 
-var suite = new Benchmark.Suite();
+// eslint-disable-next-line no-undef
+const suite = new Benchmark.Suite();
 
 // add tests
 suite
-  .add("getIngredients", function () {
+  .add("getIngredients", () => {
     getIngredients(recipes);
   })
-  .add("getAppliances", function () {
+  .add("getAppliances", () => {
     getAppliances(recipes);
   })
-  .add("getUstensils", function () {
+  .add("getUstensils", () => {
     getUstensils(recipes);
   })
   // add listeners
-  .on("cycle", function (event) {
+  .on("cycle", (event) => {
     console.log(String(event.target));
   })
   .on("complete", function () {
-    console.log("Fastest is " + this.filter("fastest").map("name"));
+    console.log(`Fastest is ${this.filter("fastest").map("name")}`);
   })
   // run async
   .run({ async: true });

@@ -1,5 +1,38 @@
 function comboboxTemplate(data, id, label, placeholder) {
   /**
+   * Create the list items
+   * @returns All LI elements inside an HTML string
+   */
+  function getComboboxItems() {
+    let comboboxElems = "";
+
+    if (data.length) {
+      for (let i = 0; i < data.length; i += 1) {
+        const elem = data[i];
+        const comboboxElem = `
+          <li id="combobox-${id.toLowerCase()}-${i}" class="combobox__item" role="option">${elem}</li>`;
+        comboboxElems += comboboxElem;
+      }
+    }
+
+    return comboboxElems;
+  }
+
+  /**
+   * Create the list
+   * @returns UL element containing LI elements inside an HTML string
+   */
+  function getComboboxList() {
+    const comboboxElems = getComboboxItems();
+    const comboboxList = `
+    <ul id="combobox-${id.toLowerCase()}-listbox" class="combobox__list" role="listbox" aria-label="${label}" data-type="${id.toLowerCase()}">
+      ${comboboxElems}
+    </ul>`;
+
+    return comboboxList;
+  }
+
+  /**
    * Create the combobox
    * @returns HTML node containing the combobox markup
    */
@@ -48,39 +81,6 @@ function comboboxTemplate(data, id, label, placeholder) {
     combobox.innerHTML = comboboxContent;
 
     return combobox;
-  }
-
-  /**
-   * Create the list
-   * @returns UL element containing LI elements inside an HTML string
-   */
-  function getComboboxList() {
-    const comboboxElems = getComboboxItems();
-    const comboboxList = `
-    <ul id="combobox-${id.toLowerCase()}-listbox" class="combobox__list" role="listbox" aria-label="${label}" data-type="${id.toLowerCase()}">
-      ${comboboxElems}
-    </ul>`;
-
-    return comboboxList;
-  }
-
-  /**
-   * Create the list items
-   * @returns All LI elements inside an HTML string
-   */
-  function getComboboxItems() {
-    let comboboxElems = "";
-
-    if (data.length) {
-      for (let i = 0; i < data.length; i++) {
-        const elem = data[i];
-        const comboboxElem = `
-          <li id="combobox-${id.toLowerCase()}-${i}" class="combobox__item" role="option">${elem}</li>`;
-        comboboxElems += comboboxElem;
-      }
-    }
-
-    return comboboxElems;
   }
 
   return { getCombobox, getComboboxList, getComboboxItems };

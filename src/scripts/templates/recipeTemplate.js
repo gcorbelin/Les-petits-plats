@@ -11,7 +11,7 @@ function recipeTemplate(data) {
     // Get ingredients
     let ingredientsList = "";
     if (ingredients.length) {
-      for (let i = 0; i < ingredients.length; i++) {
+      for (let i = 0; i < ingredients.length; i += 1) {
         const ingredient = ingredients[i];
         ingredientsList += `<li><strong>${ingredient.ingredient} ${
           ingredient.quantity ? ":" : ""
@@ -21,7 +21,7 @@ function recipeTemplate(data) {
       }
     }
 
-    let recipeCard = document.createElement("article");
+    const recipeCard = document.createElement("article");
     recipeCard.classList.add("card");
     const recipe = `
     <article class="card">
