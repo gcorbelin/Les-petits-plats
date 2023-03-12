@@ -225,7 +225,8 @@ function comboboxFill() {
 /**
  * Listen to LI elements click events to add a new tag containing its label and type
  * Also update the searchParams object by adding the label inside the right array
- * @param {clickEvent} event
+ * @param {node} list Parent UL
+ * @param {node} item Clicked LI
  */
 function addTag(list, item) {
   const content = item.innerHTML;
