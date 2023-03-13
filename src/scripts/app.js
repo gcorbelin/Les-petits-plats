@@ -320,14 +320,38 @@ const suite = new Benchmark.Suite();
 
 // add tests
 suite
-  .add("getIngredients", () => {
-    getIngredients(recipes);
+  .add("Search 'let'", () => {
+    searchParams.label = "let";
+    searchRecipes();
   })
-  .add("getAppliances", () => {
-    getAppliances(recipes);
+  .add("Search 'tomate'", () => {
+    searchParams.label = "tomate";
+    searchRecipes();
   })
-  .add("getUstensils", () => {
-    getUstensils(recipes);
+  .add("Search 'dzadza'", () => {
+    searchParams.label = "dzadza";
+    searchRecipes();
+  })
+  .add("Search multi 'let'", () => {
+    searchParams.label = "let";
+    for (let i = 0; i < 6; i += 1) {
+      filteredRecipes = filteredRecipes.concat(filteredRecipes);
+    }
+    searchRecipes();
+  })
+  .add("Search multi 'tomate'", () => {
+    searchParams.label = "tomate";
+    for (let i = 0; i < 6; i += 1) {
+      filteredRecipes = filteredRecipes.concat(filteredRecipes);
+    }
+    searchRecipes();
+  })
+  .add("Search multi 'dzadza'", () => {
+    searchParams.label = "dzadza";
+    for (let i = 0; i < 6; i += 1) {
+      filteredRecipes = filteredRecipes.concat(filteredRecipes);
+    }
+    searchRecipes();
   })
   // add listeners
   .on("cycle", (event) => {
