@@ -320,37 +320,100 @@ const suite = new Benchmark.Suite();
 
 // add tests
 suite
-  .add("Search 'let'", () => {
+  .add("Recherche textuelle : 'let'", () => {
     searchParams.label = "let";
     searchRecipes();
   })
-  .add("Search 'tomate'", () => {
+  .add("Recherche textuelle : 'tomate'", () => {
     searchParams.label = "tomate";
     searchRecipes();
   })
-  .add("Search 'dzadza'", () => {
+  .add("Recherche textuelle : 'dzadza' (aucun résultat)", () => {
     searchParams.label = "dzadza";
     searchRecipes();
   })
-  .add("Search multi 'let'", () => {
+  .add("Recherche textuelle : 'let' + Nombre de recette augmenté", () => {
+    // Add more recipes - Total 3200 recipes
+    for (let i = 0; i < 6; i += 1) {
+      filteredRecipes = filteredRecipes.concat(filteredRecipes);
+    }
+    // Start search
     searchParams.label = "let";
+    searchRecipes();
+  })
+  .add("Recherche textuelle : 'tomate' + Nombre de recette augmenté", () => {
+    // Add more recipes - Total 3200 recipes
     for (let i = 0; i < 6; i += 1) {
       filteredRecipes = filteredRecipes.concat(filteredRecipes);
     }
-    searchRecipes();
-  })
-  .add("Search multi 'tomate'", () => {
+    // Start search
     searchParams.label = "tomate";
-    for (let i = 0; i < 6; i += 1) {
-      filteredRecipes = filteredRecipes.concat(filteredRecipes);
-    }
     searchRecipes();
   })
-  .add("Search multi 'dzadza'", () => {
-    searchParams.label = "dzadza";
+  .add(
+    "Recherche textuelle : 'dzadza' (aucun résultat) + Nombre de recette augmenté",
+    () => {
+      // Add more recipes - Total 3200 recipes
+      filteredRecipes = recipes;
+      for (let i = 0; i < 6; i += 1) {
+        filteredRecipes = filteredRecipes.concat(filteredRecipes);
+      }
+      // Start search
+      searchParams.label = "dzadza";
+      searchRecipes();
+    }
+  )
+  .add("User Story", () => {
+    /**
+     * User Story
+     * Recherche textuelle : 'let'
+     * Ajout Tag Appareil 'Four'
+     * Ajout Tag Ustensile 'Couteau'
+     * Ajout Tag Ingrédient 'Tomate'
+     */
+
+    // Reset searchParams
+    searchParams.label = "";
+    searchParams.ingredients = [];
+    searchParams.appliances = [];
+    searchParams.ustensils = [];
+    // Start user story
+    searchParams.label = "let";
+    searchRecipes();
+    searchParams.appliances.push("four");
+    searchRecipes();
+    searchParams.ustensils.push("couteau");
+    searchRecipes();
+    searchParams.ingredients.push("tomate");
+    searchRecipes();
+  })
+  .add("User story + Nombre de recette augmenté", () => {
+    /**
+     * User Story
+     * Recherche textuelle : 'let'
+     * Ajout Tag Appareil 'Four'
+     * Ajout Tag Ustensile 'Couteau'
+     * Ajout Tag Ingrédient 'Tomate'
+     */
+
+    // Add more recipes - Total 3200 recipes
+    filteredRecipes = recipes;
     for (let i = 0; i < 6; i += 1) {
       filteredRecipes = filteredRecipes.concat(filteredRecipes);
     }
+    // Reset searchParams
+    searchParams.label = "";
+    searchParams.ingredients = [];
+    searchParams.appliances = [];
+    searchParams.ustensils = [];
+    // Start user story
+    searchParams.label = "let";
+    searchRecipes();
+    searchParams.appliances.push("four");
+    searchRecipes();
+    searchParams.ustensils.push("couteau");
+    searchRecipes();
+    searchParams.ingredients.push("tomate");
     searchRecipes();
   })
   // add listeners
