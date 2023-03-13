@@ -1,5 +1,3 @@
-import comboboxInit from "../utils/combobox.js";
-
 function searchSubject() {
   let observers = [];
 
