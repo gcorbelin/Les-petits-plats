@@ -366,10 +366,10 @@ suite
   .add("User Story", () => {
     /**
      * User Story
-     * Recherche textuelle : 'let'
-     * Ajout Tag Appareil 'Four'
-     * Ajout Tag Ustensile 'Couteau'
-     * Ajout Tag Ingrédient 'Tomate'
+     * Recherche textuelle : 'let' puis recherche
+     * Ajout Tag Appareil 'Four' puis recherche
+     * Ajout Tag Ustensile 'Couteau' puis recherche
+     * Ajout Tag Ingrédient 'Tomate' puis recherche
      */
 
     // Reset searchParams
@@ -387,7 +387,57 @@ suite
     searchParams.ingredients.push("tomate");
     searchRecipes();
   })
-  .add("User story + Nombre de recette augmenté", () => {
+  .add("User Story + Nombre de recette augmenté", () => {
+    /**
+     * User Story
+     * Recherche textuelle : 'let' puis recherche
+     * Ajout Tag Appareil 'Four' puis recherche
+     * Ajout Tag Ustensile 'Couteau' puis recherche
+     * Ajout Tag Ingrédient 'Tomate' puis recherche
+     */
+
+    // Add more recipes - Total 3200 recipes
+    filteredRecipes = recipes;
+    for (let i = 0; i < 6; i += 1) {
+      filteredRecipes = filteredRecipes.concat(filteredRecipes);
+    }
+    // Reset searchParams
+    searchParams.label = "";
+    searchParams.ingredients = [];
+    searchParams.appliances = [];
+    searchParams.ustensils = [];
+    // Start user story
+    searchParams.label = "let";
+    searchRecipes();
+    searchParams.appliances.push("four");
+    searchRecipes();
+    searchParams.ustensils.push("couteau");
+    searchRecipes();
+    searchParams.ingredients.push("tomate");
+    searchRecipes();
+  })
+  .add("User Story 2", () => {
+    /**
+     * User Story
+     * Recherche textuelle : 'let'
+     * Ajout Tag Appareil 'Four'
+     * Ajout Tag Ustensile 'Couteau'
+     * Ajout Tag Ingrédient 'Tomate'
+     */
+
+    // Reset searchParams
+    searchParams.label = "";
+    searchParams.ingredients = [];
+    searchParams.appliances = [];
+    searchParams.ustensils = [];
+    // Start user story
+    searchParams.label = "let";
+    searchParams.appliances.push("four");
+    searchParams.ustensils.push("couteau");
+    searchParams.ingredients.push("tomate");
+    searchRecipes();
+  })
+  .add("User Story 2 + Nombre de recette augmenté", () => {
     /**
      * User Story
      * Recherche textuelle : 'let'
@@ -408,11 +458,8 @@ suite
     searchParams.ustensils = [];
     // Start user story
     searchParams.label = "let";
-    searchRecipes();
     searchParams.appliances.push("four");
-    searchRecipes();
     searchParams.ustensils.push("couteau");
-    searchRecipes();
     searchParams.ingredients.push("tomate");
     searchRecipes();
   })
